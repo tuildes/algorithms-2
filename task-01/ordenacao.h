@@ -5,7 +5,12 @@
 #include <stdint.h>
 #include <sys/types.h>
 
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+
 #define MAX_CHAR_NOME 50
+#define MAX_VALOR_ALEAT 5
 
 // a função getNome deve colocar o seu nome dentro da chamada
 // seu nome pode ter no máximo MAX_CHAR_NOME - 1 caracteres
@@ -51,5 +56,9 @@ uint64_t selectionSortRec(int vetor[], size_t tam);
 uint64_t selectionSort(int vetor[], size_t tam);
 
 uint64_t mergeSortRec(int vetor[], size_t tam);
+
+// Funções auxiliares de manipulação de vetores
+void imprimirVetor(int vetor[], size_t tam, char nome[]);
+void aleatorizarVetor(int vetor[], size_t tam);
 
 #endif  // ORDENACAO_H_
