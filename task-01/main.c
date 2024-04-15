@@ -51,7 +51,6 @@ int main() {
     // o tempo total é a diferença dividia pelos ciclos por segundo
     total = ((double)end - start) / CLOCKS_PER_SEC;
     printf("Tempo total: %f\n", total);
-
     printf("Comparacoes: %ld\n", numComp);
 
     // numComp = selectionSortRec(vetor, 3);
