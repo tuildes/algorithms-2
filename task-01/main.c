@@ -34,23 +34,25 @@ int main() {
 
     // Inicializa o vetor e imprime seu resultado
     aleatorizarVetor(vetor, tamVetor);
-    imprimirVetor(vetor, tamVetor, "inicial");
+    // imprimirVetor(vetor, tamVetor, "inicial");
 
     start = clock();  // start recebe o "ciclo" corrente
 
+    numComp = mergeSortRec(vetor, tamVetor);
     // numComp = insertionSortRec(vetor, 3);
-    idxBusca = buscaSequencial(vetor, tamVetor, 300, &numComp);
-    printf("\nIndex: %ld\n", idxBusca);
-    printf("Comparacoes: %ld\n", numComp);
+    // idxBusca = buscaSequencial(vetor, tamVetor, 300, &numComp);
+    // printf("\nIndex: %ld\n", idxBusca);
 
     end = clock();  // end recebe o "ciclo" corrente
 
     // Imprime o resultado final
-    imprimirVetor(vetor, tamVetor, "final");
+    // imprimirVetor(vetor, tamVetor, "final");
 
     // o tempo total é a diferença dividia pelos ciclos por segundo
     total = ((double)end - start) / CLOCKS_PER_SEC;
     printf("Tempo total: %f\n", total);
+
+    printf("Comparacoes: %ld\n", numComp);
 
     // numComp = selectionSortRec(vetor, 3);
     // numComp = selectionSort(vetor, 3);

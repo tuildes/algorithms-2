@@ -8,9 +8,10 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 
 #define MAX_CHAR_NOME 50
-#define MAX_VALOR_ALEAT 5
+#define MAX_VALOR_ALEAT 999999
 
 // a função getNome deve colocar o seu nome dentro da chamada
 // seu nome pode ter no máximo MAX_CHAR_NOME - 1 caracteres
@@ -56,6 +57,8 @@ uint64_t selectionSortRec(int vetor[], size_t tam);
 uint64_t selectionSort(int vetor[], size_t tam);
 
 uint64_t mergeSortRec(int vetor[], size_t tam);
+uint64_t __mergeSort(int array[], size_t start, size_t end);
+uint64_t merge(int vetor[], size_t start, size_t mid, size_t end);
 
 // Funções auxiliares de manipulação de vetores
 void imprimirVetor(int vetor[], size_t tam, char nome[]);
