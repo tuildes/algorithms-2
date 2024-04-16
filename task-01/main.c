@@ -6,20 +6,21 @@
 #include <time.h>
 
 #include "ordenacao.h"
+#include "auxiliar.h"
 
 int main() {
 
     char nome[MAX_CHAR_NOME]; // Nome do estudante
-    size_t idxBusca; // Index da busca
-    uint64_t numComp; // Numero de comparacoes para avaliacao de custo
+    size_t idxBusca = -1; // Index da busca
+    uint64_t numComp = 0; // Numero de comparacoes para avaliacao de custo
     ssize_t tamVetor; // Tamanho do vetor que pode ser definido pelo usuario
     clock_t start, end; // variáveis para calculo de tempo
     double total; // Tempo total decorrido em cada algoritmo
 
-    // Define a seed do código
-    srand(time(NULL));
+    srand(time(NULL)); // Define a SEED aleatória da execução
 
-    // Le o tamanho do vetor e aloca seu espaço na memória
+    /* Define o tamanho do vetor e aloca seu espaço na memória */
+    printf("Defina o tamanho do vetor:\t");
     scanf("%ld", &tamVetor);
     int* vetor = malloc(tamVetor * sizeof(int));
     if (vetor == NULL) {
@@ -27,39 +28,33 @@ int main() {
         return 1;
     }
 
-    // Recebe o nome do estudante e imprime no inicio do programa
+    /* Identificação do trabalho, pelo nome e GRR */
     getNome(nome);
-    printf("Trabalho de %s\n", nome);
+    printf("\nTrabalho de %s\n", nome);
     printf("GRR %u\n", getGRR());
 
-    // Inicializa o vetor e imprime seu resultado
+    /* Inicializar o VETOR e preencher ele de forma aleatória */
     aleatorizarVetor(vetor, tamVetor);
-    // imprimirVetor(vetor, tamVetor, "inicial");
+    imprimirVetor(vetor, tamVetor, "inicial"); // Imprime o vetor inicialmente
 
     start = clock();  // start recebe o "ciclo" corrente
 
     numComp = mergeSortRec(vetor, tamVetor);
     // numComp = insertionSortRec(vetor, 3);
-    // idxBusca = buscaSequencial(vetor, tamVetor, 300, &numComp);
-    // printf("\nIndex: %ld\n", idxBusca);
+
+    // idxBusca = buscaSequencial(vetor, tamVetor, 5, &numComp);
+    // idxBusca = buscaSequencialRec(vetor, tamVetor, 5, &numComp);
+    // idxBusca = buscaBinaria(vetor, tamVetor, 5, &numComp);
+    // idxBusca = buscaBinariaRec(vetor, tamVetor, 5, &numComp);
 
     end = clock();  // end recebe o "ciclo" corrente
 
-    // Imprime o resultado final
-    // imprimirVetor(vetor, tamVetor, "final");
+    // imprimirVetor(vetor, tamVetor, "final"); // Imprime o resultado final do vetor
 
-    // o tempo total é a diferença dividia pelos ciclos por segundo
+    /* O tempo total em segundos, pela diferença divida por ciclos por segundo*/
     total = ((double)end - start) / CLOCKS_PER_SEC;
-    printf("Tempo total: %f\n", total);
-    printf("Comparacoes: %ld\n", numComp);
 
-    // numComp = selectionSortRec(vetor, 3);
-    // numComp = selectionSort(vetor, 3);
-    // idxBusca = buscaSequencial(vetor, 3, 10, &numComp);
-    // idxBusca = buscaBinaria(vetor, 3, 10, &numComp);
-
-    // printf("\n%zd %lu", idxBusca, numComp);
-    // printf("\n");
+    resultados(idxBusca, numComp, total);
 
     // Liberação do espaço alocado pelo vetor
     free(vetor);
