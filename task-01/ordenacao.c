@@ -41,14 +41,51 @@ ssize_t buscaSequencialRec(int vetor[], size_t tam, int valor,
 
 ssize_t buscaBinaria(int vetor[], size_t tam, int valor,
                      uint64_t* numComparacoes) {
-    *numComparacoes = 99;
+    
+    size_t mid;
+    size_t start = 0;
+    size_t end = (tam-1);
+
+    *numComparacoes = 0;
+
+    while (start <= end) {
+        mid = floor(((end + start)/2));
+        *numComparacoes+=1;
+        if (valor < vetor[mid])
+            end = (mid-1);
+        else
+            start = (mid+1);
+    }
+
+    mid = start-1;
+    if ((mid != -1) && valor == vetor[mid])
+        return mid;
     return -1;
 }
 
 ssize_t buscaBinariaRec(int vetor[], size_t tam, int valor,
                         uint64_t* numComparacoes) {
-    *numComparacoes = 99;
+    
+    ssize_t result;
+
+    *numComparacoes = 0;
+    result = __binarySearch(vetor, 0, (tam-1), valor, numComparacoes);
+
+    if ((result != -1) && valor == vetor[result])
+        return result;
     return -1;
+}
+
+ssize_t __binarySearch(int array[], size_t start, size_t end, int target, uint64_t* numComparacoes) { 
+    // Caso base da recursão (tamanho == 0)
+    if (start > end)
+        return (start-1);
+    
+    size_t mid = floor(((end + start)/2));
+    *numComparacoes+=1;
+    if (target < array[mid])
+        return __binarySearch(array, start, (mid-1), target, numComparacoes);
+    return __binarySearch(array, (mid+1), end, target, numComparacoes);
 }
 
 uint64_t insertionSort(int vetor[], size_t tam) {
@@ -59,6 +96,28 @@ uint64_t insertionSort(int vetor[], size_t tam) {
 uint64_t insertionSortRec(int vetor[], size_t tam) {
     vetor[0] = 99;
     return -1;
+}
+
+uint64_t __insertionSortRec(int array[], size_t lenght) {
+	
+	uint64_t comparations = 0;
+	int temp, i;
+	// Caso base
+	if (lenght == 1)
+		return 0;
+
+	comparations += __insertionSortRec(array, (lenght-1));
+	i = (lenght-2);
+	
+	while((i>=0) && (array[i] > array[i+1])) {
+		temp = array[i];
+		array[i] = array[i+1];
+		array[i+1] = temp;
+		i--;
+        comparations++;
+	}
+
+    return comparations;
 }
 
 uint64_t selectionSort(int vetor[], size_t tam) {
@@ -141,16 +200,4 @@ uint64_t merge(int vetor[], size_t start, size_t mid, size_t end) {
 
     free(aux);
     return comparacoes;
-}
-
-void imprimirVetor(int vetor[], size_t tam, char nome[]) {
-    printf("\nVetor %s:\n[ ", nome);
-    for (size_t i = 0; i < tam; i++)
-        printf("%d ", vetor[i]);
-    printf("]\n");
-}
-
-void aleatorizarVetor(int vetor[], size_t tam) {
-    for (size_t i = 0; i < tam; i++)
-        vetor[i] = (rand() % (MAX_VALOR_ALEAT + 1));
 }
