@@ -42,24 +42,6 @@ ssize_t buscaSequencialRec(int vetor[], size_t tam, int valor,
 ssize_t buscaBinaria(int vetor[], size_t tam, int valor,
                      uint64_t* numComparacoes) {
     
-    size_t mid;
-    size_t start = 0;
-    size_t end = (tam-1);
-
-    *numComparacoes = 0;
-
-    while (start <= end) {
-        mid = floor(((end + start)/2));
-        *numComparacoes+=1;
-        if (valor < vetor[mid])
-            end = (mid-1);
-        else
-            start = (mid+1);
-    }
-
-    mid = start-1;
-    if ((mid != -1) && valor == vetor[mid])
-        return mid;
     return -1;
 }
 
@@ -67,6 +49,9 @@ ssize_t buscaBinariaRec(int vetor[], size_t tam, int valor,
                         uint64_t* numComparacoes) {
     
     ssize_t result;
+
+    if (tam == 0) 
+        return -1;
 
     *numComparacoes = 0;
     result = __binarySearch(vetor, 0, (tam-1), valor, numComparacoes);
@@ -89,27 +74,49 @@ ssize_t __binarySearch(int array[], size_t start, size_t end, int target, uint64
 }
 
 uint64_t insertionSort(int vetor[], size_t tam) {
-    vetor[0] = 99;
-    return -1;
+    int temp;
+    uint64_t comparacoes = 0;
+
+    if (tam <= 0)
+        return 0;
+
+    for (unsigned int i=1; i<tam; i++) {
+        printf("%d\n", i);
+        for (unsigned int j=i; (j>=1); j--) {
+            comparacoes++;
+
+            if (vetor[j-1] <= vetor[j])
+                break;
+
+            temp = vetor[j];
+            vetor[j] = vetor[j-1];
+            vetor[j-1] = temp;
+        }
+    }
+
+    return comparacoes;
 }
 
 uint64_t insertionSortRec(int vetor[], size_t tam) {
-    vetor[0] = 99;
-    return -1;
+    if (tam <= 0)
+        return 0;
+    return __insertionSortRec(vetor, (tam-1));
 }
 
-uint64_t __insertionSortRec(int array[], size_t lenght) {
+uint64_t __insertionSortRec(int array[], size_t end) {
 	
 	uint64_t comparations = 0;
-	int temp, i;
+	long int i;
+    int temp;
+
 	// Caso base
-	if (lenght == 1)
+	if (end == 0)
 		return 0;
 
-	comparations += __insertionSortRec(array, (lenght-1));
-	i = (lenght-2);
-	
-	while((i>=0) && (array[i] > array[i+1])) {
+	comparations += __insertionSortRec(array, (end-1));
+
+	i = (end-1);
+	while((i >= 0) && (array[i] > array[(i+1)])) {
 		temp = array[i];
 		array[i] = array[i+1];
 		array[i+1] = temp;

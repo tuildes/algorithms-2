@@ -50,6 +50,7 @@ ssize_t buscaBinaria(int vetor[], size_t tam, int valor,
 // entre elementos do vetor realizado
 
 uint64_t insertionSortRec(int vetor[], size_t tam);
+uint64_t __insertionSortRec(int array[], size_t lenght);
 
 uint64_t insertionSort(int vetor[], size_t tam);
 
