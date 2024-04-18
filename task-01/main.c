@@ -10,7 +10,7 @@
 
 #define ATIVAR_IMPRESSAO 0
 #define ATIVAR_TESTES 1
-#define SELETOR_FUNCAO 10
+#define SELETOR_FUNCAO 5
 
 int main() {
 
