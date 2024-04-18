@@ -130,6 +130,7 @@ uint64_t __insertionSortRec(int array[], size_t end) {
 	comparations += __insertionSortRec(array, (end-1));
 
 	i = (end-1);
+    comparations++;
 	while((i >= 0) && (array[i] > array[(i+1)])) {
 		temp = array[i];
 		array[i] = array[i+1];

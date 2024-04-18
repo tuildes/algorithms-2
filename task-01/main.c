@@ -9,8 +9,7 @@
 #include "auxiliar.h"
 
 #define ATIVAR_IMPRESSAO 0
-#define ATIVAR_TESTES 1
-#define SELETOR_FUNCAO 5
+#define ATIVAR_TESTES 0
 
 int main() {
 
@@ -37,66 +36,123 @@ int main() {
     printf("\nTrabalho de %s\n", nome);
     printf("GRR %u\n", getGRR());
 
-    /* Inicializar o VETOR e preencher ele de forma aleatória */
-    aleatorizarVetor(vetor, tamVetor);
-    
+    /* Insertion Sort */
+    aleatorizarVetor(vetor, tamVetor); // Preenche de forma aleatória todas as posições
     if (ATIVAR_IMPRESSAO) // Imprime o vetor inicialmente, caso esteja ativado a opcao
         imprimirVetor(vetor, tamVetor, "inicial");
-
-    start = clock();  // start recebe o "ciclo" corrente
-
-    if (SELETOR_FUNCAO == 6 || SELETOR_FUNCAO == 7 || SELETOR_FUNCAO == 8 || SELETOR_FUNCAO == 9)
-        mergeSortRec(vetor, tamVetor); // Ordena caso seja escolhido as opcoes de busca
-
-    switch(SELETOR_FUNCAO) {
-        case 1:
-            numComp = insertionSort(vetor, tamVetor);
-            break;
-        case 2:
-            numComp = insertionSortRec(vetor, tamVetor);
-            break;
-        case 3:
-            numComp = selectionSort(vetor, tamVetor);
-            break;
-        case 4:
-            numComp = selectionSortRec(vetor, tamVetor);
-            break;
-        case 5:
-            numComp = mergeSortRec(vetor, tamVetor);
-            break;
-        case 6:
-            idxBusca = buscaSequencial(vetor, tamVetor, vetor[(tamVetor-1)], &numComp);
-            break;
-        case 7:
-            idxBusca = buscaSequencialRec(vetor, tamVetor, vetor[(tamVetor-1)], &numComp);
-            break;
-        case 8:
-            idxBusca = buscaBinaria(vetor, tamVetor, vetor[(tamVetor-1)], &numComp);
-            break;
-        case 9:    
-            idxBusca = buscaBinariaRec(vetor, tamVetor, vetor[(tamVetor-1)], &numComp);
-            break;
-        default:
-            printf("\nOpção inválida escolhida!\n");
-            return 1;
-    }
-
-    end = clock();  // end recebe o "ciclo" corrente
-
+    printf("\nInsertion Sort Iterativo:\n");
+    start = clock();
+    numComp = insertionSort(vetor, tamVetor);
+    end = clock();
+    testarOrdenacao(vetor, tamVetor);
     if (ATIVAR_IMPRESSAO) // Imprime o resultado final do vetor, caso esteja ativado a opcao
         imprimirVetor(vetor, tamVetor, "final");
-
-    if (ATIVAR_TESTES) { // Realiza e imprime testes, caso esteja ativado a opcao
-        if (realizarTestes(vetor, tamVetor)) {
-            free(vetor);
-            return 1;
-        }
-    }
-
     /* O tempo total em segundos, pela diferença divida por ciclos por segundo*/
     total = ((double)end - start) / CLOCKS_PER_SEC;
-    
     resultados(idxBusca, numComp, total); // Imprime todos os resultados da aplicação
+
+    /* Insertion Sort Recursivo */
+    aleatorizarVetor(vetor, tamVetor);
+    if (ATIVAR_IMPRESSAO)
+        imprimirVetor(vetor, tamVetor, "inicial");
+    printf("\nInsertion Sort Recursivo:\n");
+    start = clock();
+    numComp = insertionSortRec(vetor, tamVetor);
+    end = clock();
+    testarOrdenacao(vetor, tamVetor);
+    if (ATIVAR_IMPRESSAO)
+        imprimirVetor(vetor, tamVetor, "final");
+    total = ((double)end - start) / CLOCKS_PER_SEC;
+    resultados(idxBusca, numComp, total);
+
+    /* Selection Sort */
+    aleatorizarVetor(vetor, tamVetor);
+    if (ATIVAR_IMPRESSAO)
+        imprimirVetor(vetor, tamVetor, "inicial");
+    printf("\nSelection Sort Iterativo:\n");
+    start = clock();
+    numComp = selectionSort(vetor, tamVetor);
+    end = clock();
+    testarOrdenacao(vetor, tamVetor);
+    if (ATIVAR_IMPRESSAO)
+        imprimirVetor(vetor, tamVetor, "final");
+    total = ((double)end - start) / CLOCKS_PER_SEC;
+    resultados(idxBusca, numComp, total);
+
+    /* Selection Sort Recursivo */
+    aleatorizarVetor(vetor, tamVetor);
+    if (ATIVAR_IMPRESSAO)
+        imprimirVetor(vetor, tamVetor, "inicial");
+    printf("\nSelection Sort Recursivo:\n");
+    start = clock();
+    numComp = selectionSortRec(vetor, tamVetor);
+    end = clock();
+    testarOrdenacao(vetor, tamVetor);
+    if (ATIVAR_IMPRESSAO)
+        imprimirVetor(vetor, tamVetor, "final");
+    total = ((double)end - start) / CLOCKS_PER_SEC;
+    resultados(idxBusca, numComp, total);
+
+    /* Merge Sort */
+    aleatorizarVetor(vetor, tamVetor);
+    if (ATIVAR_IMPRESSAO)
+        imprimirVetor(vetor, tamVetor, "inicial");
+    printf("\nMerge Sort Recursivo:\n");
+    start = clock();
+    numComp = mergeSortRec(vetor, tamVetor);
+    end = clock();
+    testarOrdenacao(vetor, tamVetor);
+    if (ATIVAR_IMPRESSAO)
+        imprimirVetor(vetor, tamVetor, "final");
+    total = ((double)end - start) / CLOCKS_PER_SEC;
+    resultados(idxBusca, numComp, total);
+
+    /* Busca Sequencial */
+    printf("\nBusca Sequencial (ultimo elemento):\n");
+    numComp = 0;
+    start = clock();
+    idxBusca = buscaSequencial(vetor, tamVetor, vetor[(tamVetor-1)], &numComp);
+    end = clock();
+    testarBusca(vetor, vetor[(tamVetor-1)], idxBusca);
+    total = ((double)end - start) / CLOCKS_PER_SEC;
+    resultados(idxBusca, numComp, total);
+
+    /* Busca Recursiva Recusriva */
+    printf("\nBusca Sequencial Recursiva (ultimo elemento):\n");
+    numComp = 0;
+    start = clock();
+    idxBusca = buscaSequencialRec(vetor, tamVetor, vetor[(tamVetor-1)], &numComp);
+    end = clock();
+    testarBusca(vetor, vetor[(tamVetor-1)], idxBusca);
+    total = ((double)end - start) / CLOCKS_PER_SEC;
+    resultados(idxBusca, numComp, total);
+
+    /* Busca Recursiva */
+    printf("\nBusca Binaria (ultimo elemento):\n");
+    numComp = 0;
+    start = clock();
+    idxBusca = buscaBinaria(vetor, tamVetor, vetor[(tamVetor-1)], &numComp);
+    end = clock();
+    testarBusca(vetor, vetor[(tamVetor-1)], idxBusca);
+    total = ((double)end - start) / CLOCKS_PER_SEC;
+    resultados(idxBusca, numComp, total);
+
+    /* Busca Recursiva */
+    printf("\nBusca Binaria Recursiva (ultimo elemento):\n");
+    numComp = 0;
+    start = clock();
+    idxBusca = buscaBinariaRec(vetor, tamVetor, vetor[(tamVetor-1)], &numComp);
+    end = clock();
+    testarBusca(vetor, vetor[(tamVetor-1)], idxBusca);
+    total = ((double)end - start) / CLOCKS_PER_SEC;
+    resultados(idxBusca, numComp, total);
+
+    // if (ATIVAR_TESTES) { // Realiza e imprime testes, caso esteja ativado a opcao
+    //     if (realizarTestes(vetor, tamVetor)) {
+    //         free(vetor);
+    //         return 1;
+    //     }
+    // }
 
     free(vetor); // Liberação do espaço alocado pelo vetor
 

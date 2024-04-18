@@ -17,14 +17,14 @@ void resultados(size_t idxBusca, uint64_t numComp, double tempo) {
     printf("\n");
     printf("\e[0;34m"); // Adiciona a coloração azulada
     printf("| ------------------------------- |\n");
-    printf("| Resultado:\t\t\t\t\t  |\n");
+    printf("| Resultado:\t\t\t  |\n");
     printf("| ------------------------------- |\n");
     if (idxBusca == (-1))
-        printf("| Index:  Não foi encontrado (%1ld)  |\n", idxBusca);
+        printf("| Index:  Não foi encontrado (%1ld) |\n", idxBusca);
     else if (idxBusca == -2)
          printf("| Não foi feito nenhuma busca\t  |\n");
     else
-        printf("| Index:\t\t %16ld |\n", idxBusca);
+        printf("| Index:\t %16ld |\n", idxBusca);
     printf("| Tempo total:\t %16f |\n", tempo);
     printf("| Comparacoes:\t %16ld |\n", numComp);
     printf("| ------------------------------- |\n");
