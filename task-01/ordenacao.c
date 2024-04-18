@@ -24,7 +24,7 @@ ssize_t buscaSequencial(int vetor[], size_t tam, int valor,
 ssize_t buscaSequencialRec(int vetor[], size_t tam, int valor,
                            uint64_t* numComparacoes) {
     // Caso base (n <= 0)
-    if (tam <= 0)
+    if (tam == 0)
         return -1;
 
     ssize_t resultadoRec = buscaSequencialRec(vetor, (tam-1), 
@@ -42,6 +42,22 @@ ssize_t buscaSequencialRec(int vetor[], size_t tam, int valor,
 ssize_t buscaBinaria(int vetor[], size_t tam, int valor,
                      uint64_t* numComparacoes) {
     
+    ssize_t inicio = 0;
+    ssize_t meio;
+    ssize_t fim = (tam-1);
+
+    while (inicio <= fim) {
+        *numComparacoes+=1;
+        meio = floor(((inicio + fim)/2));
+        if (valor < vetor[meio])
+            fim = (meio-1);
+        else
+            inicio = (meio+1);
+    }
+
+    inicio--;
+    if ((inicio >= 0) && (inicio < tam) && (vetor[inicio] == valor))
+        return inicio;
     return -1;
 }
 
@@ -53,24 +69,23 @@ ssize_t buscaBinariaRec(int vetor[], size_t tam, int valor,
     if (tam == 0) 
         return -1;
 
-    *numComparacoes = 0;
-    result = __binarySearch(vetor, 0, (tam-1), valor, numComparacoes);
+    result = __buscaBinariaRec(vetor, 0, (tam-1), valor, numComparacoes);
 
-    if ((result != -1) && valor == vetor[result])
+    if ((result >= 0) && (result < tam) && (valor == vetor[result]))
         return result;
     return -1;
 }
 
-ssize_t __binarySearch(int array[], size_t start, size_t end, int target, uint64_t* numComparacoes) { 
+ssize_t __buscaBinariaRec(int array[], int start, int end, int target, uint64_t* numComparacoes) { 
     // Caso base da recursão (tamanho == 0)
     if (start > end)
         return (start-1);
     
-    size_t mid = floor(((end + start)/2));
+    int mid = floor(((end + start)/2));
     *numComparacoes+=1;
     if (target < array[mid])
-        return __binarySearch(array, start, (mid-1), target, numComparacoes);
-    return __binarySearch(array, (mid+1), end, target, numComparacoes);
+        return __buscaBinariaRec(array, start, (mid-1), target, numComparacoes);
+    return __buscaBinariaRec(array, (mid+1), end, target, numComparacoes);
 }
 
 uint64_t insertionSort(int vetor[], size_t tam) {
@@ -81,7 +96,6 @@ uint64_t insertionSort(int vetor[], size_t tam) {
         return 0;
 
     for (unsigned int i=1; i<tam; i++) {
-        printf("%d\n", i);
         for (unsigned int j=i; (j>=1); j--) {
             comparacoes++;
 
@@ -127,35 +141,75 @@ uint64_t __insertionSortRec(int array[], size_t end) {
     return comparations;
 }
 
+int minimoVetor(int vetor[], size_t inicio, size_t fim, uint64_t* numComparacoes) {
+    unsigned int menor = inicio;
+    for (unsigned int i=(inicio+1); i<=fim; i++) {
+        *numComparacoes+=1;
+        if (vetor[i] < vetor[menor])
+            menor = i;
+    }
+    return menor;
+}
+
 uint64_t selectionSort(int vetor[], size_t tam) {
-    vetor[0] = 99;
-    return -1;
+    int temp, menor;
+    uint64_t numComp = 0;
+
+    // Casos de vetores previamente ordenado (unitario ou vazio)
+    if (tam <= 1)
+        return 0;
+
+    for (unsigned int i=0; i<(tam-1); i++) {
+        menor = minimoVetor(vetor, i, (tam-1), &numComp);
+        temp = vetor[menor];
+        vetor[menor] = vetor[i];
+        vetor[i] = temp;
+    }
+
+    return numComp;
 }
 
 uint64_t selectionSortRec(int vetor[], size_t tam) {
-    vetor[0] = 99;
-    return -1;
+    if (tam <= 0)
+        return 0;
+    return __selectionSortRec(vetor, 0, (tam-1));
+}
+
+uint64_t __selectionSortRec (int vetor[], size_t start, size_t end) {
+    int temp, menor;
+    uint64_t numComp = 0;
+
+    if (start == end)
+        return 0;
+
+    menor = minimoVetor(vetor, start, end, &numComp);
+
+    temp = vetor[menor];
+    vetor[menor] = vetor[start];
+    vetor[start] = temp;
+
+    return numComp + __selectionSortRec(vetor, (start+1), end);
 }
 
 uint64_t mergeSortRec(int vetor[], size_t tam) {
     // Caso não seja necessário a ordenação
-    // Esta exceção já proibe possíveis erros que o __mergeSort é propenso
+    // Esta exceção já proibe possíveis erros que o __mergeSortRec é propenso
     if (tam <= 1)
         return 0;
 
     // Chama realmente o mergeSort para a ordenação
-    return __mergeSort(vetor, 0, (tam - 1));
+    return __mergeSortRec(vetor, 0, (tam - 1));
 }
 
-uint64_t __mergeSort(int array[], size_t start, size_t end) {
+uint64_t __mergeSortRec(int array[], size_t start, size_t end) {
     // Caso base da recursão
     if (start == end)
         return 0;
 
     size_t mid = floor(((end + start)/2));
     uint64_t comparisons = 0;
-    comparisons += __mergeSort(array, start, mid);
-    comparisons += __mergeSort(array, (mid+1), end);
+    comparisons += __mergeSortRec(array, start, mid);
+    comparisons += __mergeSortRec(array, (mid+1), end);
     comparisons += merge(array, start, mid, end);
     return comparisons;
 }

@@ -9,6 +9,8 @@
 #include <stdio.h>
 #include <math.h>
 
+#include "ordenacao.h"
+
 #define MAX_VALOR_ALEAT 999999
 
 /*
@@ -32,14 +34,17 @@ void resultados(size_t idxBusca, uint64_t numComp, double tempo);
     Retorna 1 em caso de ERRO (não ordenado)
 */
 unsigned short int testarOrdenacao(int vetor[], size_t tam);
-
 /* 
     Verifica se a busca foi correta
     Retorna 1 em caso de ERRO (index não confere)
     Não verifica em caso de elemento não existente
 */
 unsigned short int testarBusca(int vetor[], int valor, ssize_t index);
-
+/* 
+    Verifica se a busca foi correta
+    Retorna 1 em caso de ERRO (index != -1)
+*/
 unsigned short int testarBuscaImpossivel(int vetor[], ssize_t index);
+unsigned short int realizarTestes(int vetor[], ssize_t tamVetor);
 
 #endif  // AUXILIAR_H_

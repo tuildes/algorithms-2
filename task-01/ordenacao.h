@@ -39,8 +39,8 @@ ssize_t buscaSequencial(int vetor[], size_t tam, int valor,
 // busca binária no vetor
 ssize_t buscaBinariaRec(int vetor[], size_t tam, int valor,
                         uint64_t* numComparacoes);
-ssize_t __binarySearch (int array[], size_t start, size_t end, 
-                        int target, uint64_t* numComparacoes);
+ssize_t __buscaBinariaRec(int array[], int start, int end, 
+                          int target, uint64_t* numComparacoes);
 
 ssize_t buscaBinaria(int vetor[], size_t tam, int valor,
                      uint64_t* numComparacoes);
@@ -54,12 +54,16 @@ uint64_t __insertionSortRec(int array[], size_t lenght);
 
 uint64_t insertionSort(int vetor[], size_t tam);
 
+int minimoVetor(int vetor[], size_t inicio, size_t fim, 
+                uint64_t* numComparacoes);
+                
 uint64_t selectionSortRec(int vetor[], size_t tam);
+uint64_t __selectionSortRec(int vetor[], size_t start, size_t end);
 
 uint64_t selectionSort(int vetor[], size_t tam);
 
 uint64_t mergeSortRec(int vetor[], size_t tam);
-uint64_t __mergeSort(int array[], size_t start, size_t end);
+uint64_t __mergeSortRec(int array[], size_t start, size_t end);
 uint64_t merge(int vetor[], size_t start, size_t mid, size_t end);
 
 #endif  // ORDENACAO_H_

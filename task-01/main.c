@@ -10,6 +10,7 @@
 
 #define ATIVAR_IMPRESSAO 0
 #define ATIVAR_TESTES 1
+#define SELETOR_FUNCAO 10
 
 int main() {
 
@@ -39,108 +40,65 @@ int main() {
     /* Inicializar o VETOR e preencher ele de forma aleatória */
     aleatorizarVetor(vetor, tamVetor);
     
-    if (ATIVAR_IMPRESSAO)
-        imprimirVetor(vetor, tamVetor, "inicial"); // Imprime o vetor inicialmente
-
-    mergeSortRec(vetor, tamVetor);
+    if (ATIVAR_IMPRESSAO) // Imprime o vetor inicialmente, caso esteja ativado a opcao
+        imprimirVetor(vetor, tamVetor, "inicial");
 
     start = clock();  // start recebe o "ciclo" corrente
 
-    // numComp = mergeSortRec(vetor, tamVetor);
+    if (SELETOR_FUNCAO == 6 || SELETOR_FUNCAO == 7 || SELETOR_FUNCAO == 8 || SELETOR_FUNCAO == 9)
+        mergeSortRec(vetor, tamVetor); // Ordena caso seja escolhido as opcoes de busca
 
-    // numComp = insertionSortRec(vetor, tamVetor);
-    // numComp = insertionSort(vetor, tamVetor);
-
-    // idxBusca = buscaSequencial(vetor, tamVetor, vetor[(tamVetor-1)], &numComp);
-    // idxBusca = buscaSequencialRec(vetor, tamVetor, vetor[(tamVetor-1)], &numComp);
-    // idxBusca = buscaBinaria(vetor, tamVetor, 2, &numComp); n funfa
-    // idxBusca = buscaBinariaRec(vetor, tamVetor, vetor[(tamVetor-1)], &numComp);
+    switch(SELETOR_FUNCAO) {
+        case 1:
+            numComp = insertionSort(vetor, tamVetor);
+            break;
+        case 2:
+            numComp = insertionSortRec(vetor, tamVetor);
+            break;
+        case 3:
+            numComp = selectionSort(vetor, tamVetor);
+            break;
+        case 4:
+            numComp = selectionSortRec(vetor, tamVetor);
+            break;
+        case 5:
+            numComp = mergeSortRec(vetor, tamVetor);
+            break;
+        case 6:
+            idxBusca = buscaSequencial(vetor, tamVetor, vetor[(tamVetor-1)], &numComp);
+            break;
+        case 7:
+            idxBusca = buscaSequencialRec(vetor, tamVetor, vetor[(tamVetor-1)], &numComp);
+            break;
+        case 8:
+            idxBusca = buscaBinaria(vetor, tamVetor, vetor[(tamVetor-1)], &numComp);
+            break;
+        case 9:    
+            idxBusca = buscaBinariaRec(vetor, tamVetor, vetor[(tamVetor-1)], &numComp);
+            break;
+        default:
+            printf("\nOpção inválida escolhida!\n");
+            return 1;
+    }
 
     end = clock();  // end recebe o "ciclo" corrente
 
-    if (ATIVAR_IMPRESSAO)
-        imprimirVetor(vetor, tamVetor, "final"); // Imprime o resultado final do vetor
+    if (ATIVAR_IMPRESSAO) // Imprime o resultado final do vetor, caso esteja ativado a opcao
+        imprimirVetor(vetor, tamVetor, "final");
 
-    if (ATIVAR_TESTES) {
-        /* TESTE DE ORDENACAO */
-        printf("\nVerificação de ordenação:");
-        if (testarOrdenacao(vetor, tamVetor)) {
-            free(vetor);
-            return 1;
-        }
-
-        /* TESTES DE BUSCA DO ELEMENTO DA ULTIMA POSICAO*/
-        printf("\n[BUSCA SEQUENCIAL ITERATIVA] Teste de busca de ultima posicao:");
-        idxBusca = buscaSequencial(vetor, tamVetor, vetor[(tamVetor-1)], &numComp);
-        if (testarBusca(vetor, vetor[(tamVetor-1)], idxBusca)) {
-            free(vetor);
-            return 1;
-        }
-
-        printf("\n[BUSCA SEQUENCIAL RECURSIVA] Teste de busca de ultima posicao:");
-        idxBusca = buscaSequencialRec(vetor, tamVetor, vetor[(tamVetor-1)], &numComp);
-        if (testarBusca(vetor, vetor[(tamVetor-1)], idxBusca)) {
-            free(vetor);
-            return 1;
-        }
-
-        // printf("\n[BUSCA BINARIA ITERATIVA] Teste de busca de ultima posicao:");
-        // idxBusca = buscaBinaria(vetor, tamVetor, vetor[(tamVetor-1)], &numComp);
-        // if (testarBusca(vetor, vetor[(tamVetor-1)], idxBusca)) {
-        //     free(vetor);
-        //     return 1;
-        // }
-
-        printf("\n[BUSCA BINARIA RECURSIVA] Teste de busca de ultima posicao:");
-        idxBusca = buscaBinariaRec(vetor, tamVetor, vetor[(tamVetor-1)], &numComp);
-        if (testarBusca(vetor, vetor[(tamVetor-1)], idxBusca)) {
-            free(vetor);
-            return 1;
-        }
-
-        /* TESTES DE BUSCA DE ELEMENTO INEXISTENTE */
-        printf("\n[BUSCA SEQUENCIAL ITERATIVA] Teste de busca impossível:");
-        idxBusca = buscaSequencial(vetor, tamVetor, -1, &numComp);
-        if (testarBuscaImpossivel(vetor, idxBusca)) {
-            free(vetor);
-            return 1;
-        }
-
-        printf("\n[BUSCA SEQUENCIAL RECURSIVA] Teste de busca impossível:");
-        idxBusca = buscaSequencialRec(vetor, tamVetor, -1, &numComp);
-        if (testarBuscaImpossivel(vetor, idxBusca)) {
-            free(vetor);
-            return 1;
-        }
-
-        printf("\n[BUSCA BINARIA ITERATIVA] Teste de busca impossível:");
-        idxBusca = buscaSequencial(vetor, tamVetor, -1, &numComp);
-        if (testarBuscaImpossivel(vetor, idxBusca)) {
-            free(vetor);
-            return 1;
-        }
-
-        printf("\n[BUSCA BINARIA RECURSIVA] Teste de busca impossível:");
-        idxBusca = buscaSequencial(vetor, tamVetor, -1, &numComp);
-        if (testarBuscaImpossivel(vetor, idxBusca)) {
+    if (ATIVAR_TESTES) { // Realiza e imprime testes, caso esteja ativado a opcao
+        if (realizarTestes(vetor, tamVetor)) {
             free(vetor);
             return 1;
         }
     }
 
-    // printf("\nTeste de busca impossível:");
-    //  if (testarBusca(vetor, (-1), idxBusca)) {
-    //     free(vetor);
-    //     return 1;
-    // }
-
     /* O tempo total em segundos, pela diferença divida por ciclos por segundo*/
     total = ((double)end - start) / CLOCKS_PER_SEC;
+    
+    resultados(idxBusca, numComp, total); // Imprime todos os resultados da aplicação
 
-    resultados(idxBusca, numComp, total);
-
-    // Liberação do espaço alocado pelo vetor
-    free(vetor);
+    free(vetor); // Liberação do espaço alocado pelo vetor
 
     return 0;
 }
