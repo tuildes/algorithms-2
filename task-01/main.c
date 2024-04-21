@@ -147,14 +147,6 @@ int main() {
     total = ((double)end - start) / CLOCKS_PER_SEC;
     resultados(idxBusca, numComp, total);
 
-    // if (ATIVAR_TESTES) { // Realiza e imprime testes, caso esteja ativado a opcao
-    //     if (realizarTestes(vetor, tamVetor)) {
-    //         free(vetor);
-    //         return 1;
-    //     }
-    // }
-
     free(vetor); // Liberação do espaço alocado pelo vetor
-
     return 0;
 }
