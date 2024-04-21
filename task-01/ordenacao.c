@@ -27,11 +27,11 @@ ssize_t buscaSequencialRec(int vetor[], size_t tam, int valor,
     if (tam == 0)
         return -1;
 
-    ssize_t resultadoRec = buscaSequencialRec(vetor, (tam-1), 
+    ssize_t resultado = buscaSequencialRec(vetor, (tam-1), 
                                               valor, 
                                               numComparacoes);
-    if (resultadoRec != -1)
-        return resultadoRec;
+    if (resultado != -1)
+        return resultado;
 
     *numComparacoes+=1;
     if (vetor[(tam-1)] == valor)
@@ -64,47 +64,39 @@ ssize_t buscaBinaria(int vetor[], size_t tam, int valor,
 ssize_t buscaBinariaRec(int vetor[], size_t tam, int valor,
                         uint64_t* numComparacoes) {
     
-    ssize_t result;
+    ssize_t resultado;
 
     if (tam == 0) 
         return -1;
 
-    result = __buscaBinariaRec(vetor, 0, (tam-1), valor, numComparacoes);
-
-    if ((result >= 0) && (result < tam) && (valor == vetor[result]))
-        return result;
+    resultado = __buscaBinariaRec(vetor, 0, (tam-1), valor, numComparacoes);
+    if ((resultado >= 0) && (resultado < tam) && (valor == vetor[resultado]))
+        return resultado;
     return -1;
 }
 
-ssize_t __buscaBinariaRec(int array[], int start, int end, int target, uint64_t* numComparacoes) { 
+ssize_t __buscaBinariaRec(int vetor[], int inicio, int fim, int alvo, uint64_t* numComparacoes) { 
     // Caso base da recursão (tamanho == 0)
-    if (start > end)
-        return (start-1);
+    if (inicio > fim)
+        return (inicio-1);
     
-    int mid = floor(((end + start)/2));
+    int meio = floor(((fim + inicio)/2));
     *numComparacoes+=1;
-    if (target < array[mid])
-        return __buscaBinariaRec(array, start, (mid-1), target, numComparacoes);
-    return __buscaBinariaRec(array, (mid+1), end, target, numComparacoes);
+    if (alvo < vetor[meio])
+        return __buscaBinariaRec(vetor, inicio, (meio-1), alvo, numComparacoes);
+    return __buscaBinariaRec(vetor, (meio+1), fim, alvo, numComparacoes);
 }
 
 uint64_t insertionSort(int vetor[], size_t tam) {
-    int temp;
     uint64_t comparacoes = 0;
 
     if (tam <= 0)
         return 0;
 
     for (unsigned int i=1; i<tam; i++) {
-        for (unsigned int j=i; (j>=1); j--) {
+        for (unsigned int j=i; ((j>=1) && (vetor[j-1] > vetor[j])); j--) {
             comparacoes++;
-
-            if (vetor[j-1] <= vetor[j])
-                break;
-
-            temp = vetor[j];
-            vetor[j] = vetor[j-1];
-            vetor[j-1] = temp;
+            trocarPosicao(vetor, j, (j-1));
         }
     }
 
@@ -117,24 +109,21 @@ uint64_t insertionSortRec(int vetor[], size_t tam) {
     return __insertionSortRec(vetor, (tam-1));
 }
 
-uint64_t __insertionSortRec(int array[], size_t end) {
+uint64_t __insertionSortRec(int vetor[], size_t fim) {
 	
 	uint64_t comparations = 0;
 	long int i;
-    int temp;
 
 	// Caso base
-	if (end == 0)
+	if (fim == 0)
 		return 0;
 
-	comparations += __insertionSortRec(array, (end-1));
+	comparations += __insertionSortRec(vetor, (fim-1));
 
-	i = (end-1);
+	i = (fim-1);
     comparations++;
-	while((i >= 0) && (array[i] > array[(i+1)])) {
-		temp = array[i];
-		array[i] = array[i+1];
-		array[i+1] = temp;
+	while((i >= 0) && (vetor[i] > vetor[(i+1)])) {
+        trocarPosicao(vetor, i, (i+1));
 		i--;
         comparations++;
 	}
@@ -153,7 +142,7 @@ int minimoVetor(int vetor[], size_t inicio, size_t fim, uint64_t* numComparacoes
 }
 
 uint64_t selectionSort(int vetor[], size_t tam) {
-    int temp, menor;
+    int menor;
     uint64_t numComp = 0;
 
     // Casos de vetores previamente ordenado (unitario ou vazio)
@@ -162,9 +151,7 @@ uint64_t selectionSort(int vetor[], size_t tam) {
 
     for (unsigned int i=0; i<(tam-1); i++) {
         menor = minimoVetor(vetor, i, (tam-1), &numComp);
-        temp = vetor[menor];
-        vetor[menor] = vetor[i];
-        vetor[i] = temp;
+        trocarPosicao(vetor, menor, i);
     }
 
     return numComp;
@@ -176,20 +163,16 @@ uint64_t selectionSortRec(int vetor[], size_t tam) {
     return __selectionSortRec(vetor, 0, (tam-1));
 }
 
-uint64_t __selectionSortRec (int vetor[], size_t start, size_t end) {
-    int temp, menor;
+uint64_t __selectionSortRec (int vetor[], size_t inicio, size_t fim) {
+    int menor;
     uint64_t numComp = 0;
 
-    if (start == end)
+    if (inicio == fim)
         return 0;
 
-    menor = minimoVetor(vetor, start, end, &numComp);
-
-    temp = vetor[menor];
-    vetor[menor] = vetor[start];
-    vetor[start] = temp;
-
-    return numComp + __selectionSortRec(vetor, (start+1), end);
+    menor = minimoVetor(vetor, inicio, fim, &numComp);
+    trocarPosicao(vetor, menor, inicio);
+    return numComp + __selectionSortRec(vetor, (inicio+1), fim);
 }
 
 uint64_t mergeSortRec(int vetor[], size_t tam) {
@@ -198,41 +181,41 @@ uint64_t mergeSortRec(int vetor[], size_t tam) {
     if (tam <= 1)
         return 0;
 
-    // Chama realmente o mergeSort para a ordenação
+    // Chama o algoritmo que realmente vai fazer a ordenacao om parametros corretos
     return __mergeSortRec(vetor, 0, (tam - 1));
 }
 
-uint64_t __mergeSortRec(int array[], size_t start, size_t end) {
+uint64_t __mergeSortRec(int vetor[], size_t inicio, size_t fim) {
     // Caso base da recursão
-    if (start == end)
+    if (inicio == fim)
         return 0;
 
-    size_t mid = floor(((end + start)/2));
-    uint64_t comparisons = 0;
-    comparisons += __mergeSortRec(array, start, mid);
-    comparisons += __mergeSortRec(array, (mid+1), end);
-    comparisons += merge(array, start, mid, end);
-    return comparisons;
+    size_t meio = floor(((fim + inicio)/2));
+    uint64_t comparacoes = 0;
+    comparacoes += __mergeSortRec(vetor, inicio, meio);
+    comparacoes += __mergeSortRec(vetor, (meio+1), fim);
+    comparacoes += merge(vetor, inicio, meio, fim);
+    return comparacoes;
 }
 
-uint64_t merge(int vetor[], size_t start, size_t mid, size_t end) {
+uint64_t merge(int vetor[], size_t inicio, size_t meio, size_t fim) {
     int* aux;
     size_t i, j, cont;
     uint64_t comparacoes;
 
     // Aloca espaço para o vetor auxiliar
-    aux = malloc((end-start+1) * sizeof(int));
+    aux = malloc((fim-inicio+1) * sizeof(int));
     if (aux == NULL) {
         printf("Falha fatal. Impossível alocar memoria.\n");
         return -1;
     } 
 
-    i=start;
-    j=(mid+1);
+    i=inicio;
+    j=(meio+1);
     cont=0;
     comparacoes = 0;
 
-    while((i <= mid) && (j <= end)) {
+    while((i <= meio) && (j <= fim)) {
         if (vetor[i] < vetor[j]) {
             aux[cont] = vetor[i];
             i++;
@@ -244,22 +227,28 @@ uint64_t merge(int vetor[], size_t start, size_t mid, size_t end) {
         cont++;
     }
 
-    while(i <= mid) {
+    while(i <= meio) {
         aux[cont] = vetor[i];
         i++;
         cont++;
     }
 
-    while(j <= end) {
+    while(j <= fim) {
         aux[cont] = vetor[j];
         j++;
         cont++;
     }
 
     // Colocar todo o vetor aux no vetor original
-    for (cont=0; cont<=(end-start); cont++)
-        vetor[(start+cont)] = aux[cont];
+    for (cont=0; cont<=(fim-inicio); cont++)
+        vetor[(inicio+cont)] = aux[cont];
 
     free(aux);
     return comparacoes;
+}
+
+void trocarPosicao(int vetor[], size_t pos1, size_t pos2) {
+    int temp = vetor[pos1];
+    vetor[pos1] = vetor[pos2];
+    vetor[pos2] = temp;
 }

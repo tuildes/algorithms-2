@@ -39,8 +39,8 @@ ssize_t buscaSequencial(int vetor[], size_t tam, int valor,
 // busca binária no vetor
 ssize_t buscaBinariaRec(int vetor[], size_t tam, int valor,
                         uint64_t* numComparacoes);
-ssize_t __buscaBinariaRec(int array[], int start, int end, 
-                          int target, uint64_t* numComparacoes);
+ssize_t __buscaBinariaRec(int vetor[], int inicio, int fim, 
+                          int alvo, uint64_t* numComparacoes);
 
 ssize_t buscaBinaria(int vetor[], size_t tam, int valor,
                      uint64_t* numComparacoes);
@@ -48,9 +48,13 @@ ssize_t buscaBinaria(int vetor[], size_t tam, int valor,
 // Cada uma das funções deve ordenar o vetor passado como parâmetro
 // O retorno das funções de ordenação é o número de comparações
 // entre elementos do vetor realizado
-
+/*
+    Insertion Sort Recursivo
+    @param (int*)   vetor - tamanho que deseja ser ordenado
+    @param (size_t) tam - tamanho do vetor [0..(tam-1)]
+*/
 uint64_t insertionSortRec(int vetor[], size_t tam);
-uint64_t __insertionSortRec(int array[], size_t lenght);
+uint64_t __insertionSortRec(int vetor[], size_t fim);
 
 uint64_t insertionSort(int vetor[], size_t tam);
 
@@ -58,12 +62,14 @@ int minimoVetor(int vetor[], size_t inicio, size_t fim,
                 uint64_t* numComparacoes);
                 
 uint64_t selectionSortRec(int vetor[], size_t tam);
-uint64_t __selectionSortRec(int vetor[], size_t start, size_t end);
+uint64_t __selectionSortRec(int vetor[], size_t inicio, size_t fim);
 
 uint64_t selectionSort(int vetor[], size_t tam);
 
 uint64_t mergeSortRec(int vetor[], size_t tam);
-uint64_t __mergeSortRec(int array[], size_t start, size_t end);
-uint64_t merge(int vetor[], size_t start, size_t mid, size_t end);
+uint64_t __mergeSortRec(int vetor[], size_t inicio, size_t fim);
+uint64_t merge(int vetor[], size_t inicio, size_t meio, size_t fim);
+
+void trocarPosicao(int vetor[], size_t pos1, size_t pos2);
 
 #endif  // ORDENACAO_H_
