@@ -6,12 +6,10 @@ void getNome(char nome[]) {
         '\0';  // adicionada terminação manual para caso de overflow
 }
 
-// Função que retorna o GRR do estudante
 uint32_t getGRR() { return 20235087; }
 
 ssize_t buscaSequencial(int vetor[], size_t tam, int valor,
                         uint64_t* numComparacoes) {
-
     for (int i=0; i < tam; i++) {
         *numComparacoes+=1;
         if (vetor[i] == valor)
@@ -66,17 +64,20 @@ ssize_t buscaBinariaRec(int vetor[], size_t tam, int valor,
     
     ssize_t resultado;
 
+    // Caso em que a busca binaria eh dispensável
+    // Vetores nulos ou inexistentes
     if (tam == 0) 
         return -1;
 
     resultado = __buscaBinariaRec(vetor, 0, (tam-1), valor, numComparacoes);
     if ((resultado >= 0) && (resultado < tam) && (valor == vetor[resultado]))
-        return resultado;
-    return -1;
+        return resultado; // Caso: Index RESULTADO seja realmente o valor buscado
+    return -1; // Não encontrado
 }
 
-ssize_t __buscaBinariaRec(int vetor[], int inicio, int fim, int alvo, uint64_t* numComparacoes) { 
-    // Caso base da recursão (tamanho == 0)
+ssize_t __buscaBinariaRec(int vetor[], int inicio, int fim, int alvo,
+                          uint64_t* numComparacoes) { 
+    // Caso base da recursão (tamanho == 0 & inversao de index)
     if (inicio > fim)
         return (inicio-1);
     
@@ -91,9 +92,12 @@ uint64_t insertionSort(int vetor[], size_t tam) {
     uint64_t comparacoes = 0;
     ssize_t busca;
 
-    if (tam <= 0)
+    // Caso em que a ordenacao eh dispensável
+    // Vetores unitarios, vazios, ou inexistentes
+    if (tam <= 1)
         return 0;
 
+    // Busca o local do elemento e aplica um shift de todos os elementos maiores
     for (unsigned int i=1; i<tam; i++) {
         busca = __buscaBinariaRec(vetor, 0, (i-1), vetor[i], &comparacoes);
 		for (unsigned int j=i; j>(busca+1); j--)
@@ -104,8 +108,12 @@ uint64_t insertionSort(int vetor[], size_t tam) {
 }
 
 uint64_t insertionSortRec(int vetor[], size_t tam) {
-    if (tam <= 0)
+    // Caso em que a ordenacao eh dispensável
+    // Vetores unitarios, vazios, ou inexistentes
+    if (tam <= 1)
         return 0;
+
+    // Algoritmo que realmente vai fazer a ordenacao recursivamente
     return __insertionSortRec(vetor, (tam-1));
 }
 
@@ -113,12 +121,13 @@ uint64_t __insertionSortRec(int vetor[], size_t fim) {
 	uint64_t comparacoes = 0;
     ssize_t busca;
 
-	// Caso base
+	// Caso base (vetor unitário)
 	if (fim == 0)
 		return 0;
 
 	comparacoes += __insertionSortRec(vetor, (fim-1));
 
+    // Busca o local do elemento e aplica um shift de todos os elementos maiores
 	busca = __buscaBinariaRec(vetor, 0, (fim-1), vetor[fim], &comparacoes);
     for (unsigned int i=fim; i>(busca+1); i--)
         trocarPosicao(vetor, i, (i-1));
@@ -140,10 +149,13 @@ uint64_t selectionSort(int vetor[], size_t tam) {
     int menor;
     uint64_t numComp = 0;
 
-    // Casos de vetores previamente ordenado (unitario ou vazio)
+    // Caso em que a ordenacao eh dispensável
+    // Vetores unitarios, vazios, ou inexistentes
     if (tam <= 1)
         return 0;
 
+    // A cada iteracao, o menor elemento do subvetor
+    // eh colocado no início do vetor
     for (unsigned int i=0; i<(tam-1); i++) {
         menor = minimoVetor(vetor, i, (tam-1), &numComp);
         trocarPosicao(vetor, menor, i);
@@ -153,8 +165,12 @@ uint64_t selectionSort(int vetor[], size_t tam) {
 }
 
 uint64_t selectionSortRec(int vetor[], size_t tam) {
-    if (tam <= 0)
+    // Caso em que a ordenacao eh dispensável
+    // Vetores unitarios, vazios, ou inexistentes
+    if (tam <= 1)
         return 0;
+
+    // Algoritmo que realmente vai fazer a ordenacao recursivamente
     return __selectionSortRec(vetor, 0, (tam-1));
 }
 
@@ -162,21 +178,24 @@ uint64_t __selectionSortRec (int vetor[], size_t inicio, size_t fim) {
     int menor;
     uint64_t numComp = 0;
 
+    // Caso base (vetor unitario)
     if (inicio == fim)
         return 0;
 
+    // A cada iteracao, o menor elemento do subvetor
+    // eh colocado no início do vetor
     menor = minimoVetor(vetor, inicio, fim, &numComp);
     trocarPosicao(vetor, menor, inicio);
     return numComp + __selectionSortRec(vetor, (inicio+1), fim);
 }
 
 uint64_t mergeSortRec(int vetor[], size_t tam) {
-    // Caso não seja necessário a ordenação
-    // Esta exceção já proibe possíveis erros que o __mergeSortRec é propenso
+    // Caso em que a ordenacao eh dispensável
+    // Vetores unitarios, vazios, ou inexistentes
     if (tam <= 1)
         return 0;
 
-    // Chama o algoritmo que realmente vai fazer a ordenacao om parametros corretos
+    // Algoritmo que realmente vai fazer a ordenacao recursivamente
     return __mergeSortRec(vetor, 0, (tam - 1));
 }
 
@@ -210,6 +229,7 @@ uint64_t merge(int vetor[], size_t inicio, size_t meio, size_t fim) {
     cont=0;
     comparacoes = 0;
 
+    // Intercala os dois subvetores até um deles acabar
     while((i <= meio) && (j <= fim)) {
         if (vetor[i] < vetor[j]) {
             aux[cont] = vetor[i];
@@ -222,23 +242,25 @@ uint64_t merge(int vetor[], size_t inicio, size_t meio, size_t fim) {
         cont++;
     }
 
+    // Completa com o que falta do primeiro subvetor
     while(i <= meio) {
         aux[cont] = vetor[i];
         i++;
         cont++;
     }
 
+    // Completa com o que falta do segundo subvetor
     while(j <= fim) {
         aux[cont] = vetor[j];
         j++;
         cont++;
     }
 
-    // Colocar todo o vetor aux no vetor original
+    // Copia tudo do vetor auxiliar no vetor de origem
     for (cont=0; cont<=(fim-inicio); cont++)
         vetor[(inicio+cont)] = aux[cont];
 
-    free(aux);
+    free(aux); // Libera o espaço armazenado do vetor auxiliar
     return comparacoes;
 }
 
