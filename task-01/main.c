@@ -23,7 +23,11 @@ int main() {
 
     /* Define o tamanho do vetor e aloca seu espaço na memória */
     printf("Defina o tamanho do vetor:\t");
-    scanf("%ld", &tamVetor);
+    if (scanf("%ld", &tamVetor) != 1) {
+		printf("Falha fatal. Tamanho de vetor inváldo\n");
+		return 1;
+	}
+
     int* vetor = malloc(tamVetor * sizeof(int));
     if (vetor == NULL) {
         printf("Falha fatal. Impossível alocar memoria.\n");
