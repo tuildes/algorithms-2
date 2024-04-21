@@ -45,6 +45,5 @@ unsigned short int testarBusca(int vetor[], int valor, ssize_t index);
     Retorna 1 em caso de ERRO (index != -1)
 */
 unsigned short int testarBuscaImpossivel(int vetor[], ssize_t index);
-unsigned short int realizarTestes(int vetor[], ssize_t tamVetor);
 
 #endif  // AUXILIAR_H_
