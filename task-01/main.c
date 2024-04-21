@@ -106,45 +106,47 @@ int main() {
     total = ((double)end - start) / CLOCKS_PER_SEC;
     resultados(idxBusca, numComp, total);
 
-    /* Busca Sequencial */
-    printf("\nBusca Sequencial (ultimo elemento):\n");
-    numComp = 0;
-    start = clock();
-    idxBusca = buscaSequencial(vetor, tamVetor, vetor[(tamVetor-1)], &numComp);
-    end = clock();
-    testarBusca(vetor, vetor[(tamVetor-1)], idxBusca);
-    total = ((double)end - start) / CLOCKS_PER_SEC;
-    resultados(idxBusca, numComp, total);
+    if (tamVetor > 0) {
+        /* Busca Sequencial */
+        printf("\nBusca Sequencial (ultimo elemento):\n");
+        numComp = 0;
+        start = clock();
+        idxBusca = buscaSequencial(vetor, tamVetor, vetor[(tamVetor-1)], &numComp);
+        end = clock();
+        testarBusca(vetor, vetor[(tamVetor-1)], idxBusca);
+        total = ((double)end - start) / CLOCKS_PER_SEC;
+        resultados(idxBusca, numComp, total);
 
-    /* Busca Sequencial Recursiva */
-    printf("\nBusca Sequencial Recursiva (ultimo elemento):\n");
-    numComp = 0;
-    start = clock();
-    idxBusca = buscaSequencialRec(vetor, tamVetor, vetor[(tamVetor-1)], &numComp);
-    end = clock();
-    testarBusca(vetor, vetor[(tamVetor-1)], idxBusca);
-    total = ((double)end - start) / CLOCKS_PER_SEC;
-    resultados(idxBusca, numComp, total);
+        /* Busca Sequencial Recursiva */
+        printf("\nBusca Sequencial Recursiva (ultimo elemento):\n");
+        numComp = 0;
+        start = clock();
+        idxBusca = buscaSequencialRec(vetor, tamVetor, vetor[(tamVetor-1)], &numComp);
+        end = clock();
+        testarBusca(vetor, vetor[(tamVetor-1)], idxBusca);
+        total = ((double)end - start) / CLOCKS_PER_SEC;
+        resultados(idxBusca, numComp, total);
 
-    /* Busca Binaria */
-    printf("\nBusca Binaria (ultimo elemento):\n");
-    numComp = 0;
-    start = clock();
-    idxBusca = buscaBinaria(vetor, tamVetor, vetor[(tamVetor-1)], &numComp);
-    end = clock();
-    testarBusca(vetor, vetor[(tamVetor-1)], idxBusca);
-    total = ((double)end - start) / CLOCKS_PER_SEC;
-    resultados(idxBusca, numComp, total);
+        /* Busca Binaria */
+        printf("\nBusca Binaria (ultimo elemento):\n");
+        numComp = 0;
+        start = clock();
+        idxBusca = buscaBinaria(vetor, tamVetor, vetor[(tamVetor-1)], &numComp);
+        end = clock();
+        testarBusca(vetor, vetor[(tamVetor-1)], idxBusca);
+        total = ((double)end - start) / CLOCKS_PER_SEC;
+        resultados(idxBusca, numComp, total);
 
-    /* Busca Binaria Recursiva */
-    printf("\nBusca Binaria Recursiva (ultimo elemento):\n");
-    numComp = 0;
-    start = clock();
-    idxBusca = buscaBinariaRec(vetor, tamVetor, vetor[(tamVetor-1)], &numComp);
-    end = clock();
-    testarBusca(vetor, vetor[(tamVetor-1)], idxBusca);
-    total = ((double)end - start) / CLOCKS_PER_SEC;
-    resultados(idxBusca, numComp, total);
+        /* Busca Binaria Recursiva */
+        printf("\nBusca Binaria Recursiva (ultimo elemento):\n");
+        numComp = 0;
+        start = clock();
+        idxBusca = buscaBinariaRec(vetor, tamVetor, vetor[(tamVetor-1)], &numComp);
+        end = clock();
+        testarBusca(vetor, vetor[(tamVetor-1)], idxBusca);
+        total = ((double)end - start) / CLOCKS_PER_SEC;
+        resultados(idxBusca, numComp, total);
+    }
 
     free(vetor); // Liberação do espaço alocado pelo vetor
     return 0;
