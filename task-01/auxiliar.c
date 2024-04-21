@@ -70,12 +70,3 @@ unsigned short int testarBusca(int vetor[], int valor, ssize_t index) {
     printf("\e[0;32m\nBusca concluída com sucesso\n\033[m");
     return 0;
 }
-
-unsigned short int testarBuscaImpossivel(int vetor[], ssize_t index) {
-    if (index != -1) {
-        printf("\e[0;31m\n[NÃO PASSOU NO TESTE]\nFoi retornado uma posicao do vetor\n");
-        return 1;
-    }
-    printf("\e[0;32m\nBusca concluída com sucesso\n\033[m");
-    return 0;
-}

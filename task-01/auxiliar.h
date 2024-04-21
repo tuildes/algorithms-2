@@ -26,7 +26,17 @@ void imprimirVetor(int vetor[], size_t tam, char nome[]);
 */
 void aleatorizarVetor(int vetor[], size_t tam);
 
-/* Imprime os resultados de Index de Busca, comparações e tempo */
+/* 
+    Imprime os resultados de Index de Busca, comparações e tempo. 
+    EXEMPLO: | ------------------------------- |
+             | Resultado:			           |
+             | ------------------------------- |
+             | Index:	              idxBusca |
+             | Tempo total:	             tempo |
+             | Comparacoes:	           numComp |
+             | ------------------------------- |
+
+*/
 void resultados(size_t idxBusca, uint64_t numComp, double tempo);
 
 /* 
@@ -34,16 +44,11 @@ void resultados(size_t idxBusca, uint64_t numComp, double tempo);
     Retorna 1 em caso de ERRO (não ordenado)
 */
 unsigned short int testarOrdenacao(int vetor[], size_t tam);
+
 /* 
-    Verifica se a busca foi correta
+    Verifica se a busca foi correta para elemento existente
     Retorna 1 em caso de ERRO (index não confere)
-    Não verifica em caso de elemento não existente
 */
 unsigned short int testarBusca(int vetor[], int valor, ssize_t index);
-/* 
-    Verifica se a busca foi correta
-    Retorna 1 em caso de ERRO (index != -1)
-*/
-unsigned short int testarBuscaImpossivel(int vetor[], ssize_t index);
 
 #endif  // AUXILIAR_H_
