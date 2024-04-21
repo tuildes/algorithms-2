@@ -9,7 +9,6 @@
 #include "auxiliar.h"
 
 #define ATIVAR_IMPRESSAO 0
-#define ATIVAR_TESTES 0
 
 int main() {
 
@@ -117,7 +116,7 @@ int main() {
     total = ((double)end - start) / CLOCKS_PER_SEC;
     resultados(idxBusca, numComp, total);
 
-    /* Busca Recursiva Recusriva */
+    /* Busca Sequencial Recursiva */
     printf("\nBusca Sequencial Recursiva (ultimo elemento):\n");
     numComp = 0;
     start = clock();
@@ -127,7 +126,7 @@ int main() {
     total = ((double)end - start) / CLOCKS_PER_SEC;
     resultados(idxBusca, numComp, total);
 
-    /* Busca Recursiva */
+    /* Busca Binaria */
     printf("\nBusca Binaria (ultimo elemento):\n");
     numComp = 0;
     start = clock();
@@ -137,7 +136,7 @@ int main() {
     total = ((double)end - start) / CLOCKS_PER_SEC;
     resultados(idxBusca, numComp, total);
 
-    /* Busca Recursiva */
+    /* Busca Binaria Recursiva */
     printf("\nBusca Binaria Recursiva (ultimo elemento):\n");
     numComp = 0;
     start = clock();
