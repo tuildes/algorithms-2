@@ -89,15 +89,15 @@ ssize_t __buscaBinariaRec(int vetor[], int inicio, int fim, int alvo, uint64_t* 
 
 uint64_t insertionSort(int vetor[], size_t tam) {
     uint64_t comparacoes = 0;
+    ssize_t busca;
 
     if (tam <= 0)
         return 0;
 
     for (unsigned int i=1; i<tam; i++) {
-        for (unsigned int j=i; ((j>=1) && (vetor[j-1] > vetor[j])); j--) {
-            comparacoes++;
+        busca = __buscaBinariaRec(vetor, 0, (i-1), vetor[i], &comparacoes);
+		for (unsigned int j=i; j>(busca+1); j--)
             trocarPosicao(vetor, j, (j-1));
-        }
     }
 
     return comparacoes;
@@ -110,25 +110,20 @@ uint64_t insertionSortRec(int vetor[], size_t tam) {
 }
 
 uint64_t __insertionSortRec(int vetor[], size_t fim) {
-	
-	uint64_t comparations = 0;
-	long int i;
+	uint64_t comparacoes = 0;
+    ssize_t busca;
 
 	// Caso base
 	if (fim == 0)
 		return 0;
 
-	comparations += __insertionSortRec(vetor, (fim-1));
+	comparacoes += __insertionSortRec(vetor, (fim-1));
 
-	i = (fim-1);
-    comparations++;
-	while((i >= 0) && (vetor[i] > vetor[(i+1)])) {
-        trocarPosicao(vetor, i, (i+1));
-		i--;
-        comparations++;
-	}
+	busca = __buscaBinariaRec(vetor, 0, (fim-1), vetor[fim], &comparacoes);
+    for (unsigned int i=fim; i>(busca+1); i--)
+        trocarPosicao(vetor, i, (i-1));
 
-    return comparations;
+    return comparacoes;
 }
 
 int minimoVetor(int vetor[], size_t inicio, size_t fim, uint64_t* numComparacoes) {
