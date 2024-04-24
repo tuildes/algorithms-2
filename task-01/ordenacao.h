@@ -69,7 +69,7 @@ ssize_t buscaBinariaRec(int vetor[], size_t tam, int valor,
     @param (uint64_t*) numComparacoes - numero de comparações feitas
     @returns {ssize_t} - possivel indice do elemento procurado no vetor
 */
-ssize_t __buscaBinariaRec(int vetor[], int inicio, int fim, 
+ssize_t intBuscaBinariaRec(int vetor[], int inicio, int fim, 
                           int alvo, uint64_t* numComparacoes);
 
 /* 
@@ -119,7 +119,7 @@ uint64_t insertionSort(int vetor[], size_t tam);
 /*
     Selection Sort Recursivo
     Recebe um vetor e o ordena de forma não decrescente
-    Esta função é um wrapper que chama __selectionSortRec()
+    Esta função é um wrapper que chama intSelectionSortRec()
 
     @param (int*) vetor - tamanho que deseja ser ordenado
     @param (size_t) tam - tamanho do vetor
@@ -136,7 +136,7 @@ uint64_t selectionSortRec(int vetor[], size_t tam);
     @param (size_t) fim - indice final do subvetor
     @returns (uint64_t) - quantas comparações entre elementos foram feitas
 */ 
-uint64_t __selectionSortRec(int vetor[], size_t inicio, size_t fim);
+uint64_t intSelectionSortRec(int vetor[], size_t inicio, size_t fim);
 
 /*
     Insertion Sort Iterativa
@@ -151,7 +151,7 @@ uint64_t selectionSort(int vetor[], size_t tam);
 /*
     Merge Sort Recursivo
     Recebe um vetor e o ordena de forma não decrescente
-    Esta função é um wrapper que chama __mergeSortRec()
+    Esta função é um wrapper que chama intMergeSortRec()
 
     @param (int*) vetor - tamanho que deseja ser ordenado
     @param (size_t) tam - tamanho do vetor
@@ -168,7 +168,7 @@ uint64_t mergeSortRec(int vetor[], size_t tam);
     @param (size_t) fim - indice final do subvetor
     @returns (uint64_t) - quantas comparações entre elementos foram feitas
 */ 
-uint64_t __mergeSortRec(int vetor[], size_t inicio, size_t fim);
+uint64_t intMergeSortRec(int vetor[], size_t inicio, size_t fim);
 
 /*
     Merge (intercalar)

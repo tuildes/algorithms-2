@@ -69,13 +69,13 @@ ssize_t buscaBinariaRec(int vetor[], size_t tam, int valor,
     if (tam == 0) 
         return -1;
 
-    resultado = __buscaBinariaRec(vetor, 0, (tam-1), valor, numComparacoes);
+    resultado = intBuscaBinariaRec(vetor, 0, (tam-1), valor, numComparacoes);
     if ((resultado >= 0) && (resultado < tam) && (valor == vetor[resultado]))
         return resultado; // Caso: Index RESULTADO seja realmente o valor buscado
     return -1; // Não encontrado
 }
 
-ssize_t __buscaBinariaRec(int vetor[], int inicio, int fim, int alvo,
+ssize_t intBuscaBinariaRec(int vetor[], int inicio, int fim, int alvo,
                           uint64_t* numComparacoes) { 
     // Caso base da recursão (tamanho == 0 & inversao de index)
     if (inicio > fim)
@@ -84,8 +84,8 @@ ssize_t __buscaBinariaRec(int vetor[], int inicio, int fim, int alvo,
     int meio = floor(((fim + inicio)/2));
     *numComparacoes+=1;
     if (alvo < vetor[meio])
-        return __buscaBinariaRec(vetor, inicio, (meio-1), alvo, numComparacoes);
-    return __buscaBinariaRec(vetor, (meio+1), fim, alvo, numComparacoes);
+        return intBuscaBinariaRec(vetor, inicio, (meio-1), alvo, numComparacoes);
+    return intBuscaBinariaRec(vetor, (meio+1), fim, alvo, numComparacoes);
 }
 
 uint64_t insertionSort(int vetor[], size_t tam) {
@@ -99,7 +99,7 @@ uint64_t insertionSort(int vetor[], size_t tam) {
 
     // Busca o local do elemento e aplica um shift de todos os elementos maiores
     for (unsigned int i=1; i<tam; i++) {
-        busca = __buscaBinariaRec(vetor, 0, (i-1), vetor[i], &comparacoes);
+        busca = intBuscaBinariaRec(vetor, 0, (i-1), vetor[i], &comparacoes);
 		for (unsigned int j=i; j>(busca+1); j--)
             trocarPosicao(vetor, j, (j-1));
     }
@@ -128,7 +128,7 @@ uint64_t __insertionSortRec(int vetor[], size_t fim) {
 	comparacoes += __insertionSortRec(vetor, (fim-1));
 
     // Busca o local do elemento e aplica um shift de todos os elementos maiores
-	busca = __buscaBinariaRec(vetor, 0, (fim-1), vetor[fim], &comparacoes);
+	busca = intBuscaBinariaRec(vetor, 0, (fim-1), vetor[fim], &comparacoes);
     for (unsigned int i=fim; i>(busca+1); i--)
         trocarPosicao(vetor, i, (i-1));
 
@@ -171,10 +171,10 @@ uint64_t selectionSortRec(int vetor[], size_t tam) {
         return 0;
 
     // Algoritmo que realmente vai fazer a ordenacao recursivamente
-    return __selectionSortRec(vetor, 0, (tam-1));
+    return intSelectionSortRec(vetor, 0, (tam-1));
 }
 
-uint64_t __selectionSortRec (int vetor[], size_t inicio, size_t fim) {
+uint64_t intSelectionSortRec (int vetor[], size_t inicio, size_t fim) {
     int menor;
     uint64_t numComp = 0;
 
@@ -186,7 +186,7 @@ uint64_t __selectionSortRec (int vetor[], size_t inicio, size_t fim) {
     // eh colocado no início do vetor
     menor = minimoVetor(vetor, inicio, fim, &numComp);
     trocarPosicao(vetor, menor, inicio);
-    return numComp + __selectionSortRec(vetor, (inicio+1), fim);
+    return numComp + intSelectionSortRec(vetor, (inicio+1), fim);
 }
 
 uint64_t mergeSortRec(int vetor[], size_t tam) {
@@ -196,18 +196,18 @@ uint64_t mergeSortRec(int vetor[], size_t tam) {
         return 0;
 
     // Algoritmo que realmente vai fazer a ordenacao recursivamente
-    return __mergeSortRec(vetor, 0, (tam - 1));
+    return intMergeSortRec(vetor, 0, (tam - 1));
 }
 
-uint64_t __mergeSortRec(int vetor[], size_t inicio, size_t fim) {
+uint64_t intMergeSortRec(int vetor[], size_t inicio, size_t fim) {
     // Caso base da recursão
     if (inicio == fim)
         return 0;
 
     size_t meio = floor(((fim + inicio)/2));
     uint64_t comparacoes = 0;
-    comparacoes += __mergeSortRec(vetor, inicio, meio);
-    comparacoes += __mergeSortRec(vetor, (meio+1), fim);
+    comparacoes += intMergeSortRec(vetor, inicio, meio);
+    comparacoes += intMergeSortRec(vetor, (meio+1), fim);
     comparacoes += merge(vetor, inicio, meio, fim);
     return comparacoes;
 }
