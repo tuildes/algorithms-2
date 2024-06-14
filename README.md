@@ -1,11 +1,12 @@
-# algorithms-2
+# 👻 Trabalhos de Algoritmos 2
 
-Trabalhos de algoritmos 2, feitos em 2024/1
+> [!NOTE]
+> Trabalhos feitos em C para a matéria de algoritmos 2 [^1]
 
-## Implementações
+## ☕ Info
 
-### Algoritmos de ordenação
+- **Matéria**: Algoritmos 2 [^1]
+- **Data**: primeiro semestre de 2024
+- **Linguagem**: `C`
 
--   Selection Sort Recursivo e Iterativo
--   Insertion Sort Recursivo e Iterativo
--   Merge Sort Recursivo
+[^1]: Faculdade de **Informática Biomédica** na Universidade Federal do Paraná no ano de 2023 (segundo semestre), o curso se consiste em uma matriz de ciência da computação com matérias focadas as áreas biomédicas e aplicações da computação em áreas médicas, como genética.
