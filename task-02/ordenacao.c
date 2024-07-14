@@ -116,41 +116,48 @@ uint64_t quickSort(int vetor[], size_t tam) {
 size_t particao (int *vetor, size_t inicio, size_t fim, uint64_t *compar) {
 
     // Variaveis
-    int pivo = vetor[fim];
-    size_t meio = inicio;
+    int pivo;
+    size_t posPivo;
+
+    // Seleciona um aleatorio para ser o pivo
+    trocarPosicao(vetor, 
+                  fim, 
+                  ((inicio + (rand() % (fim - inicio + 1)))));
+
+    // Inicializar variaveis importantes do Quick Sort
+    pivo = vetor[fim];
+    posPivo = inicio;
 
     // Encontra o lugar do pivot
     for (size_t i = inicio; i < fim; i++) {
         *compar += 1;
         if (vetor[i] <= pivo) {
-            trocarPosicao(vetor, i, meio);
-            meio++;
+            trocarPosicao(vetor, i, posPivo);
+            posPivo++;
         }
     }
 
     // Coloca o pivot no seu lugar devido
-    trocarPosicao(vetor, meio, fim);
-    return meio;
+    trocarPosicao(vetor, posPivo, fim);
+    return posPivo;
 }
 
-uint64_t internoQuickSort(int *vetor, size_t inicio, size_t fim, 
+uint64_t internoQuickSort(int *vetor, ssize_t inicio, ssize_t fim, 
                           uint64_t *compar) {
 
-        // Caso base (nulo ou unitario)
-        if (inicio >= fim) return 0;
+    // Caso base (nulo ou unitario)
+    if (inicio >= fim) return 0;
 
-        // Particionamento do algoritmo
-        size_t meio = particao (vetor, inicio, fim, compar);
+    // Particionamento do algoritmo
+    size_t meio = particao (vetor, inicio, fim, compar);
 
-        // Quick Sort para o lado dos menores (esquerdo)
-        if (meio != 0)
-            internoQuickSort(vetor, inicio, (meio - 1), compar);
+    // Quick Sort para o lado dos menores (esquerdo)
+    internoQuickSort(vetor, inicio, (meio - 1), compar);
 
-        // Quick Sort para o lado dos maiores (direito)
-        if (meio != fim)
-            internoQuickSort(vetor, (meio + 1), fim, compar);
+    // Quick Sort para o lado dos maiores (direito)
+    internoQuickSort(vetor, (meio + 1), fim, compar);
         
-        return (*compar);
+    return (*compar);
 }
 
 uint64_t heapSort(int vetor[], size_t tam) { return 0; }
@@ -168,7 +175,8 @@ uint64_t quickSortSR(int vetor[], size_t tam) {
     uint64_t comparacoes = 0;
 
     // Indices de ordenacao
-    size_t a, b, meio;
+    size_t a, b;
+    ssize_t posPivo; // Pode ser negativo (caso de posPivo-1)
 
     // Pilha de simulacao da recursao
     pilha p;
@@ -176,7 +184,7 @@ uint64_t quickSortSR(int vetor[], size_t tam) {
 
     // Inicializa a PILHA com os extremos
     empilhar(&p, 0);
-    empilhar(&p, (tam-1));
+    empilhar(&p, (tam - 1));
 
     while(!pilhaVazia(p)) {
 
@@ -185,16 +193,16 @@ uint64_t quickSortSR(int vetor[], size_t tam) {
 
         if (a < b) {
             // Particionamento do pivot (b)
-            meio = particao(vetor, a, b, &comparacoes);
+            posPivo = particao(vetor, a, b, &comparacoes);
 
             // Lado esquerdo
-            if (meio != 0) {
+            if (posPivo != 0) {
                 empilhar(&p, a);
-                empilhar(&p, (meio-1));
+                empilhar(&p, (posPivo - 1));
             }
     
             // Lado direito
-            empilhar(&p, (meio+1));
+            empilhar(&p, (posPivo + 1));
             empilhar(&p, b);
         }
     }

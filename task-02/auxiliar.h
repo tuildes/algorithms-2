@@ -10,8 +10,8 @@
 
 #include "ordenacao.h"
 
-// #define MAX_INT_VALUE 536870912 // 2 elevado a 29
-#define MAX_INT_VALUE 10
+#define MAX_INT_VALUE 536870912 // 2 elevado a 29
+// #define MAX_INT_VALUE 100
 
 /*
     Imprime o VETOR no formato:

@@ -66,7 +66,7 @@ uint64_t merge(int vetor[], size_t inicio, size_t meio, size_t fim);
 void trocarPosicao(int vetor[], size_t pos1, size_t pos2);
 
 size_t particao (int *vetor, size_t inicio, size_t fim, uint64_t *compar);
-uint64_t internoQuickSort(int *vetor, size_t inicio, size_t fim, 
+uint64_t internoQuickSort(int *vetor, ssize_t inicio, ssize_t fim, 
                           uint64_t *compar);
 uint64_t quickSort(int vetor[], size_t tam);
 

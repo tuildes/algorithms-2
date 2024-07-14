@@ -3,18 +3,19 @@
 
 #include <stdlib.h>
 
+// Pilha focada em indices
 typedef struct {
     size_t altura;
     size_t topo;
     
-    int *valor;
+    size_t *valor;
 } pilha;
 
 // Inicializa a pilha, com altura e memoria
 unsigned int inicializarPilha(pilha *p, size_t tamanho); // Retorna 1 para ERRO
 
 // Nao verifica se eh impossivel empilhar
-int empilhar(pilha *p, int valor); // Retorna 1 para pilha cheia
+int empilhar(pilha *p, size_t valor); // Retorna 1 para pilha cheia
 
 // Nao verifica se eh impossivel desempilhar
 int desempilhar(pilha *p); // Retorna o desempilhado
