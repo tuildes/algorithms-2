@@ -7,6 +7,8 @@
 #include <stdio.h>
 #include <sys/types.h>
 
+#include "pilha.h"
+
 #define MAX_CHAR 50
 
 // A função getNome deve colocar o seu nome no vetor
@@ -63,6 +65,9 @@ uint64_t merge(int vetor[], size_t inicio, size_t meio, size_t fim);
 */ 
 void trocarPosicao(int vetor[], size_t pos1, size_t pos2);
 
+size_t particao (int *vetor, size_t inicio, size_t fim, uint64_t *compar);
+uint64_t internoQuickSort(int *vetor, size_t inicio, size_t fim, 
+                          uint64_t *compar);
 uint64_t quickSort(int vetor[], size_t tam);
 
 uint64_t heapSort(int vetor[], size_t tam);

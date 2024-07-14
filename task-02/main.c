@@ -8,7 +8,7 @@
 #include "ordenacao.h"
 #include "auxiliar.h"
 
-#define ATIVAR_IMPRESSAO 1
+#define ATIVAR_IMPRESSAO 0
 
 int main() {
     
@@ -55,9 +55,50 @@ int main() {
     total = ((double)end - start) / CLOCKS_PER_SEC;
     resultados(numComp, total); // Imprime Resultados (tempo, comps)
 
+    /* Quick Sort (Recursivo) */
+    aleatorizarVetor(vetor, tamVetor);
+    if (ATIVAR_IMPRESSAO) imprimirVetor(vetor, tamVetor, "inicial");
+    printf("\nQuick Sort Recursivo:\n");
+    
+    start = clock();
+    numComp = quickSort(vetor, tamVetor);
+    end = clock();
+    
+    testarOrdenacao(vetor, tamVetor);
+    if (ATIVAR_IMPRESSAO) imprimirVetor(vetor, tamVetor, "final");
+    total = ((double)end - start) / CLOCKS_PER_SEC;
+    resultados(numComp, total); // Imprime Resultados (tempo, comps)
 
-    // numComp = mergeSort(vetor, 3);
-    // printf("NumComp: %d\n", numComp);
+    /* Heap Sort (Recursivo) */
+    /*
+    aleatorizarVetor(vetor, tamVetor);
+    if (ATIVAR_IMPRESSAO) imprimirVetor(vetor, tamVetor, "inicial");
+    printf("\nHeap Sort Recursivo:\n");
+    
+    start = clock();
+    numComp = heapSort(vetor, tamVetor);
+    end = clock();
+    
+    testarOrdenacao(vetor, tamVetor);
+    if (ATIVAR_IMPRESSAO) imprimirVetor(vetor, tamVetor, "final");
+    total = ((double)end - start) / CLOCKS_PER_SEC;
+    resultados(numComp, total); // Imprime Resultados (tempo, comps)
+    */
+
+    /* Quick Sort (Iterativo) */
+    aleatorizarVetor(vetor, tamVetor);
+    if (ATIVAR_IMPRESSAO) imprimirVetor(vetor, tamVetor, "inicial");
+    printf("\nQuick Sort Iterativo:\n");
+    
+    start = clock();
+    numComp = quickSortSR(vetor, tamVetor);
+    end = clock();
+    
+    testarOrdenacao(vetor, tamVetor);
+    if (ATIVAR_IMPRESSAO) imprimirVetor(vetor, tamVetor, "final");
+    total = ((double)end - start) / CLOCKS_PER_SEC;
+    resultados(numComp, total); // Imprime Resultados (tempo, comps)
+
     // numComp = quickSort(vetor, 3);
     // printf("NumComp: %d\n", numComp);
     // numComp = heapSort(vetor, 3);
@@ -69,7 +110,7 @@ int main() {
     // numComp = heapSortSR(vetor, 3);
     // printf("NumComp: %d\n", numComp);
 
-    free(vetor);
+    free(vetor); // Libera o espaco reservado do vetor
 
     return 0;
 }

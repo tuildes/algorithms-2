@@ -9,7 +9,7 @@ void imprimirVetor(int vetor[], size_t tam, char nome[]) {
 
 void aleatorizarVetor(int vetor[], size_t tam) {
     for (size_t i = 0; i < tam; i++)
-        vetor[i] = (rand() % (MAX_INT_VALUE));
+        vetor[i] = (rand() % ((2 * MAX_INT_VALUE) + 1) - MAX_INT_VALUE);
 }
 
 void resultados(uint64_t numComp, double tempo) {
@@ -22,7 +22,7 @@ void resultados(uint64_t numComp, double tempo) {
     printf("| Tempo total:\t %16f |\n", tempo);
     printf("| Comparacoes:\t %16ld |\n", numComp);
     printf("| ------------------------------- |\n");
-    printf("\033[m"); // Remove a coloração amarela
+    printf("\033[m"); // Remove a coloração azulada
 }
 
 unsigned short int testarOrdenacao(int vetor[], size_t tam) {
@@ -34,7 +34,8 @@ unsigned short int testarOrdenacao(int vetor[], size_t tam) {
 
     for (unsigned int i=0; i<=(tam-2); i++)
         if (vetor[i] > vetor[i+1]) {
-            printf("\e[0;31m\n[NÃO PASSOU NO TESTE]\nO vetor não foi ordenado!\n\033[m");
+            printf("\e[0;31m\n[NÃO PASSOU NO TESTE]\n"
+                   "O vetor não foi ordenado!\n\033[m");
             return 1;
         };
     printf("\e[0;32m\nVetor ordenado corretamente!\n\033[m");
