@@ -2,7 +2,7 @@
 
 unsigned int inicializarPilha(pilha *p, size_t tamanho) {
     
-    p->valor = (size_t *) malloc (tamanho * sizeof(int));
+    p->valor = (int *) malloc (tamanho * sizeof(int));
     if (p->valor == NULL) return 1;
 
     p->altura = tamanho;
@@ -11,12 +11,10 @@ unsigned int inicializarPilha(pilha *p, size_t tamanho) {
     return 0;
 }
 
-int empilhar(pilha *p, size_t valor) {
+void empilhar(pilha *p, int valor) {
 
     p->valor[(p->topo)] = valor;
     p->topo++;
-
-    return 0;
 }
 
 int desempilhar(pilha *p) {

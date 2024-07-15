@@ -99,13 +99,22 @@ int main() {
     total = ((double)end - start) / CLOCKS_PER_SEC;
     resultados(numComp, total); // Imprime Resultados (tempo, comps)
 
-    // numComp = quickSort(vetor, 3);
-    // printf("NumComp: %d\n", numComp);
+    /* Merge Sort (Iterativo) */
+    aleatorizarVetor(vetor, tamVetor);
+    if (ATIVAR_IMPRESSAO) imprimirVetor(vetor, tamVetor, "inicial");
+    printf("\nMerge Sort Iterativo:\n");
+    
+    start = clock();
+    numComp = mergeSortSR(vetor, tamVetor);
+    end = clock();
+    
+    testarOrdenacao(vetor, tamVetor);
+    if (ATIVAR_IMPRESSAO) imprimirVetor(vetor, tamVetor, "final");
+    total = ((double)end - start) / CLOCKS_PER_SEC;
+    resultados(numComp, total); // Imprime Resultados (tempo, comps)
+
+
     // numComp = heapSort(vetor, 3);
-    // printf("NumComp: %d\n", numComp);
-    // numComp = mergeSortSR(vetor, 3);
-    // printf("NumComp: %d\n", numComp);
-    // numComp = quickSortSR(vetor, 3);
     // printf("NumComp: %d\n", numComp);
     // numComp = heapSortSR(vetor, 3);
     // printf("NumComp: %d\n", numComp);

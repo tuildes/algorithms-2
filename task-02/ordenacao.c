@@ -163,8 +163,66 @@ uint64_t internoQuickSort(int *vetor, ssize_t inicio, ssize_t fim,
 uint64_t heapSort(int vetor[], size_t tam) { return 0; }
 
 uint64_t mergeSortSR(int vetor[], size_t tam) {
-    vetor[0] = 99;
-    return -1;
+
+    // Caso base da recursão (vetor unitario)
+    if (tam <= 1) return 0;
+
+    // Define as variaveis de funcao
+    int a, b, meio;
+    uint64_t comparacoes = 0;
+
+    // Define a pilha de simulacao de recursao
+    pilha p;
+    if (inicializarPilha(&p, (tam << 1))) return 0;
+
+    pilha pilhaMerge;
+    if (inicializarPilha(&pilhaMerge, (tam << 2))) return 0;
+
+    // Inicializa a pilha com os indices EXTREMOS
+    empilhar(&p, 0);
+    empilhar(&p, (tam - 1));
+
+    empilhar(&pilhaMerge, 0);
+    empilhar(&pilhaMerge, (tam - 1));
+
+    while(!pilhaVazia(p)) {
+        
+        b = desempilhar(&p);
+        a = desempilhar(&p);
+
+        if (a < b) {
+            meio = ((b + a) >> 1);
+
+            // Primeira pilha de indices
+            empilhar(&p, (meio + 1));
+            empilhar(&p, b);
+            empilhar(&p, a);
+            empilhar(&p, meio);
+
+            // Segunda pilha de merges
+            empilhar(&pilhaMerge, (meio + 1));
+            empilhar(&pilhaMerge, b);
+            empilhar(&pilhaMerge, a);
+            empilhar(&pilhaMerge, meio);
+        }
+    }
+
+    free(p.valor);
+
+    while(!pilhaVazia(pilhaMerge)) {
+
+        b = desempilhar(&pilhaMerge);
+        a = desempilhar(&pilhaMerge);
+
+        if (a < b) {
+            meio = ((b + a) >> 1);
+            comparacoes += merge(vetor, a, meio, b);
+        }
+    }
+
+    free(pilhaMerge.valor);
+
+    return comparacoes;
 }
 
 uint64_t quickSortSR(int vetor[], size_t tam) {
@@ -175,12 +233,11 @@ uint64_t quickSortSR(int vetor[], size_t tam) {
     uint64_t comparacoes = 0;
 
     // Indices de ordenacao
-    size_t a, b;
-    ssize_t posPivo; // Pode ser negativo (caso de posPivo-1)
+    int a, b, posPivo;
 
     // Pilha de simulacao da recursao
     pilha p;
-    inicializarPilha(&p, tam);
+    if (inicializarPilha(&p, (tam << 1))) return 0;
 
     // Inicializa a PILHA com os extremos
     empilhar(&p, 0);
@@ -196,7 +253,7 @@ uint64_t quickSortSR(int vetor[], size_t tam) {
             posPivo = particao(vetor, a, b, &comparacoes);
 
             // Lado esquerdo
-            if (posPivo != 0) {
+            if (posPivo) {
                 empilhar(&p, a);
                 empilhar(&p, (posPivo - 1));
             }
