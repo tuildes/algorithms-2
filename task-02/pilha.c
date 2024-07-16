@@ -24,3 +24,9 @@ int desempilhar(pilha *p) {
 }
 
 unsigned int pilhaVazia(pilha p) { return (p.topo == 0) ? 1 : 0; }
+
+void destruirPilha (pilha *p) {
+    free(p->valor);
+    p->topo = 0;
+    p->altura = 0;
+}

@@ -33,12 +33,12 @@ uint64_t internoMergeSort(int vetor[], size_t inicio, size_t fim) {
     if (inicio == fim) return 0;
 
     // Define o meio do vetor (piso)
-    size_t meio = ((fim + inicio)/2);
+    size_t meio = ((fim + inicio) >> 1);
     uint64_t comparacoes = 0;
 
     // Ordenacação de ambos os lados, finalizando com a intercalacao
     comparacoes += internoMergeSort(vetor, inicio, meio); // Esquerdo
-    comparacoes += internoMergeSort(vetor, (meio+1), fim); // Direito
+    comparacoes += internoMergeSort(vetor, (meio + 1), fim); // Direito
     comparacoes += merge(vetor, inicio, meio, fim); // Intercala os valores
 
     return comparacoes;
@@ -60,9 +60,9 @@ uint64_t merge(int vetor[], size_t inicio, size_t meio, size_t fim) {
     } 
 
     // Inicializacao de variaveis
-    i=inicio;
-    j=(meio+1);
-    cont=0;
+    i = inicio;
+    j = (meio+1);
+    cont = 0;
     comparacoes = 0;
 
     // Intercala os dois subvetores até um deles acabar
@@ -142,27 +142,45 @@ size_t particao (int *vetor, size_t inicio, size_t fim, uint64_t *compar) {
     return posPivo;
 }
 
-uint64_t internoQuickSort(int *vetor, ssize_t inicio, ssize_t fim, 
+uint64_t internoQuickSort(int *vetor, size_t inicio, size_t fim, 
                           uint64_t *compar) {
 
     // Caso base (nulo ou unitario)
     if (inicio >= fim) return 0;
 
     // Particionamento do algoritmo
-    size_t meio = particao (vetor, inicio, fim, compar);
+    size_t posPivo = particao (vetor, inicio, fim, compar);
 
     // Quick Sort para o lado dos menores (esquerdo)
-    internoQuickSort(vetor, inicio, (meio - 1), compar);
+    if (posPivo != 0)
+        internoQuickSort(vetor, inicio, (posPivo - 1), compar);
 
     // Quick Sort para o lado dos maiores (direito)
-    internoQuickSort(vetor, (meio + 1), fim, compar);
+    internoQuickSort(vetor, (posPivo + 1), fim, compar);
         
     return (*compar);
 }
 
 uint64_t heapSort(int vetor[], size_t tam) { return 0; }
 
-uint64_t mergeSortSR(int vetor[], size_t tam) {
+uint64_t mergeSortSR(int vetor[], size_t tam) { 
+
+    if (tam <= 1) return 0;
+    
+    uint64_t comparacoes = 0;
+    size_t end;
+
+    for (unsigned int largura = 1; largura < (tam << 1); largura *= 2) {
+        for (unsigned int i = 0; i < tam; i += (largura + 1)) {
+        ;    end = ((i + largura) < tam) ? (i + largura) : (tam - 1);
+            comparacoes += merge (vetor, i, ((i + (largura >> 1))), end); 
+        }
+    } 
+
+    return comparacoes; 
+}
+
+uint64_t mergeSortAPSR(int vetor[], size_t tam) {
 
     // Caso base da recursão (vetor unitario)
     if (tam <= 1) return 0;
@@ -207,7 +225,7 @@ uint64_t mergeSortSR(int vetor[], size_t tam) {
         }
     }
 
-    free(p.valor);
+    destruirPilha(&p);
 
     while(!pilhaVazia(pilhaMerge)) {
 
@@ -220,7 +238,7 @@ uint64_t mergeSortSR(int vetor[], size_t tam) {
         }
     }
 
-    free(pilhaMerge.valor);
+    destruirPilha(&pilhaMerge);
 
     return comparacoes;
 }
@@ -264,7 +282,7 @@ uint64_t quickSortSR(int vetor[], size_t tam) {
         }
     }
 
-    free(p.valor);
+    destruirPilha(&p);
     return comparacoes;
 }
 

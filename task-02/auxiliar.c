@@ -1,6 +1,6 @@
 #include "auxiliar.h"
 
-void imprimirVetor(int vetor[], size_t tam, char nome[]) {
+void imprimirVetor(int vetor[], size_t tam, const char nome[]) {
     printf("\e[1m\nVetor %s:\n\e[m[ ", nome);
     for (size_t i = 0; i < tam; i++)
         printf("%d ", vetor[i]);

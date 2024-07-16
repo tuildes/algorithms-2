@@ -112,7 +112,29 @@ int main() {
     if (ATIVAR_IMPRESSAO) imprimirVetor(vetor, tamVetor, "final");
     total = ((double)end - start) / CLOCKS_PER_SEC;
     resultados(numComp, total); // Imprime Resultados (tempo, comps)
+    
+    /* Merge Sort (Iterativo) apenas pilhas */
+    if (tamVetor <= 65536) {
 
+        aleatorizarVetor(vetor, tamVetor);
+        if (ATIVAR_IMPRESSAO) imprimirVetor(vetor, tamVetor, "inicial");
+        printf("\nMerge Sort Iterativo (apenas pilhas):\n");
+    
+        start = clock();
+        numComp = mergeSortAPSR(vetor, tamVetor);
+        end = clock();
+    
+        testarOrdenacao(vetor, tamVetor);
+        if (ATIVAR_IMPRESSAO) imprimirVetor(vetor, tamVetor, "final");
+        total = ((double)end - start) / CLOCKS_PER_SEC;
+        resultados(numComp, total); // Imprime Resultados (tempo, comps)
+
+    } else {
+        printf( "\nMerge Sort Iterativo (apenas pilhas):\n" );
+        printf( "\e[0;31m\n"
+                "Abortado pela quantidade de espaço disponível\n"
+                "\e[0;31m\n");
+    }
 
     // numComp = heapSort(vetor, 3);
     // printf("NumComp: %d\n", numComp);

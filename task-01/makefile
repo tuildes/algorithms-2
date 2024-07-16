@@ -1,4 +1,4 @@
-parametrosCompilacao=-Wall #-Wshadow
+parametrosCompilacao=-Wall -Wextra #-Wshadow
 nomePrograma=trab1GRR20235087
 
 all: $(nomePrograma)
