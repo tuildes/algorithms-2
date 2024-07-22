@@ -53,7 +53,7 @@ uint64_t merge(int vetor[], size_t inicio, size_t meio, size_t fim) {
     uint64_t comparacoes; // Total de comparações
 
     // Aloca espaço para o vetor auxiliar
-    aux = malloc((fim-inicio+1) * sizeof(int));
+    aux = (int*) malloc((fim - inicio + 1) * sizeof(int));
     if (aux == NULL) { // Caso nao seja possivel alocar (ERRO)
         printf("Falha fatal. Impossível alocar memoria.\n");
         return (-1);
@@ -222,7 +222,7 @@ uint64_t mergeSortSR(int vetor[], size_t tam) {
 
     // Define a pilha de simulacao de recursao
     pilha p;
-    if (inicializarPilha(&p, (tam << 2))) return (-1);
+    if (inicializarPilha(&p, (tam * 5))) return (-1);
 
     // Inicializa a pilha com os indices EXTREMOS
     empilhar(&p, FALSE); // FALSO para Merge

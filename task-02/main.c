@@ -43,7 +43,6 @@ int main() {
     printf("Trabalho de %s\n", nome);
     printf("GRR %u\n", getGRR());
 
-
     /* Merge Sort (Recursivo) */
     aleatorizarVetor(vetor, tamVetor);
     if (ATIVAR_IMPRESSAO) imprimirVetor(vetor, tamVetor, "inicial");
@@ -57,7 +56,6 @@ int main() {
     if (ATIVAR_IMPRESSAO) imprimirVetor(vetor, tamVetor, "final");
     total = ((double)end - start) / CLOCKS_PER_SEC;
     resultados(numComp, total); // Imprime Resultados (tempo, comps)
-
 
     /* Quick Sort (Recursivo) */
     aleatorizarVetor(vetor, tamVetor);
@@ -73,7 +71,6 @@ int main() {
     total = ((double)end - start) / CLOCKS_PER_SEC;
     resultados(numComp, total); // Imprime Resultados (tempo, comps)
 
-
     /* Heap Sort (Recursivo) */
     aleatorizarVetor(vetor, tamVetor);
     if (ATIVAR_IMPRESSAO) imprimirVetor(vetor, tamVetor, "inicial");
@@ -88,7 +85,6 @@ int main() {
     total = ((double)end - start) / CLOCKS_PER_SEC;
     resultados(numComp, total); // Imprime Resultados (tempo, comps)
 
-
     /* Merge Sort (Iterativo) */
     aleatorizarVetor(vetor, tamVetor);
     if (ATIVAR_IMPRESSAO) imprimirVetor(vetor, tamVetor, "inicial");
@@ -101,8 +97,7 @@ int main() {
     testarOrdenacao(vetor, tamVetor);
     if (ATIVAR_IMPRESSAO) imprimirVetor(vetor, tamVetor, "final");
     total = ((double)end - start) / CLOCKS_PER_SEC;
-    resultados(numComp, total); // Imprime Resultados (tempo, comps)
-    
+    resultados(numComp, total); // Imprime Resultados (tempo, comps) 
 
     /* Quick Sort (Iterativo) */
     aleatorizarVetor(vetor, tamVetor);
@@ -118,7 +113,6 @@ int main() {
     total = ((double)end - start) / CLOCKS_PER_SEC;
     resultados(numComp, total); // Imprime Resultados (tempo, comps)
 
-
     /* Heap Sort (Iterativo) */
     aleatorizarVetor(vetor, tamVetor);
     if (ATIVAR_IMPRESSAO) imprimirVetor(vetor, tamVetor, "inicial");
@@ -132,7 +126,6 @@ int main() {
     if (ATIVAR_IMPRESSAO) imprimirVetor(vetor, tamVetor, "final");
     total = ((double)end - start) / CLOCKS_PER_SEC;
     resultados(numComp, total); // Imprime Resultados (tempo, comps)
-
 
     free(vetor); // Libera o espaco reservado do vetor
 
