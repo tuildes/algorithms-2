@@ -56,7 +56,7 @@ uint64_t merge(int vetor[], size_t inicio, size_t meio, size_t fim) {
     aux = malloc((fim-inicio+1) * sizeof(int));
     if (aux == NULL) { // Caso nao seja possivel alocar (ERRO)
         printf("Falha fatal. Impossível alocar memoria.\n");
-        return 0;
+        return (-1);
     } 
 
     // Inicializacao de variaveis
@@ -128,7 +128,7 @@ size_t particao (int *vetor, size_t inicio, size_t fim, uint64_t *compar) {
     pivo = vetor[fim];
     posPivo = inicio;
 
-    // Encontra o lugar do pivot
+    // Encontra o lugar do pivo
     for (size_t i = inicio; i < fim; i++) {
         *compar += 1;
         if (vetor[i] <= pivo) {
@@ -137,7 +137,7 @@ size_t particao (int *vetor, size_t inicio, size_t fim, uint64_t *compar) {
         }
     }
 
-    // Coloca o pivot no seu lugar devido
+    // Coloca o pivo no seu lugar devido
     trocarPosicao(vetor, posPivo, fim);
     return posPivo;
 }
@@ -161,26 +161,57 @@ uint64_t internoQuickSort(int *vetor, size_t inicio, size_t fim,
     return (*compar);
 }
 
-uint64_t heapSort(int vetor[], size_t tam) { return 0; }
+size_t indiceFilhoEsquerdo (size_t i) { return ((i << 1) + 1);}
+size_t indiceFilhoDireito (size_t i) { return ((i << 1) + 2); }
 
-uint64_t mergeSortSR(int vetor[], size_t tam) { 
+uint64_t maxHeapify(int vetor[], size_t inicio, size_t fim) {
 
-    if (tam <= 1) return 0;
-    
-    uint64_t comparacoes = 0;
-    size_t end;
+    size_t esquerdo, direito, maior;
 
-    for (unsigned int largura = 1; largura < (tam << 1); largura *= 2) {
-        for (unsigned int i = 0; i < tam; i += (largura + 1)) {
-        ;    end = ((i + largura) < tam) ? (i + largura) : (tam - 1);
-            comparacoes += merge (vetor, i, ((i + (largura >> 1))), end); 
-        }
-    } 
+    esquerdo = indiceFilhoEsquerdo(inicio);
+    direito = indiceFilhoDireito(inicio);
 
-    return comparacoes; 
+    if ((esquerdo <= fim) && (vetor[esquerdo] > vetor[inicio]))
+        maior = esquerdo;
+    else
+        maior = inicio;
+
+    if ((direito <= fim) && (vetor[direito] > vetor[maior]))
+        maior = direito;
+
+    // Se for necessario, faz a troca
+    if (maior != inicio) {
+        trocarPosicao(vetor, maior, inicio);
+        return (2 + maxHeapify(vetor, maior, fim));
+    }
+
+    return 2;
 }
 
-uint64_t mergeSortAPSR(int vetor[], size_t tam) {
+uint64_t construirMaxHeap(int vetor[], size_t tam) {
+    uint64_t comparacoes = 0;
+    // Faz Max Heaps dos nos menores ate chegar na raiz
+    for (int i = ((tam >> 1) - 1); i >= 0; i--)
+        comparacoes += maxHeapify(vetor, i, (tam - 1));
+    return comparacoes;
+}
+
+uint64_t heapSort(int vetor[], size_t tam) { 
+
+    if (tam <= 1) return 0;
+
+    // Constroi uma Max Heap completa
+    uint64_t comparacoes = construirMaxHeap(vetor, tam);
+    // Arruma as max heaps excluindo o elemento da raiz do maxHeapify
+    for (size_t i = (tam - 1); i >= 1; i--) {
+        trocarPosicao(vetor, 0, i);
+        comparacoes += maxHeapify(vetor, 0, (i - 1));
+    }
+
+    return comparacoes;
+}
+
+uint64_t mergeSortSR(int vetor[], size_t tam) {
 
     // Caso base da recursão (vetor unitario)
     if (tam <= 1) return 0;
@@ -191,18 +222,13 @@ uint64_t mergeSortAPSR(int vetor[], size_t tam) {
 
     // Define a pilha de simulacao de recursao
     pilha p;
-    if (inicializarPilha(&p, (tam << 1))) return 0;
-
-    pilha pilhaMerge;
-    if (inicializarPilha(&pilhaMerge, (tam << 2))) return 0;
+    if (inicializarPilha(&p, (tam << 2))) return (-1);
 
     // Inicializa a pilha com os indices EXTREMOS
+    empilhar(&p, FALSE); // FALSO para Merge
     empilhar(&p, 0);
     empilhar(&p, (tam - 1));
-
-    empilhar(&pilhaMerge, 0);
-    empilhar(&pilhaMerge, (tam - 1));
-
+    
     while(!pilhaVazia(p)) {
         
         b = desempilhar(&p);
@@ -211,34 +237,34 @@ uint64_t mergeSortAPSR(int vetor[], size_t tam) {
         if (a < b) {
             meio = ((b + a) >> 1);
 
-            // Primeira pilha de indices
+            // Caso de TRUE para Merge
+            if (desempilhar(&p)) {
+                comparacoes += merge(vetor, a, meio, b);
+                continue;
+            }
+
+            // Merge desta iteracao
+            empilhar(&p, TRUE);
+            empilhar(&p, a);
+            empilhar(&p, b);
+
+            // Lado direito
+            empilhar(&p, FALSE);
             empilhar(&p, (meio + 1));
             empilhar(&p, b);
+
+            // Lado esquerdo
+            empilhar(&p, FALSE);
             empilhar(&p, a);
             empilhar(&p, meio);
 
-            // Segunda pilha de merges
-            empilhar(&pilhaMerge, (meio + 1));
-            empilhar(&pilhaMerge, b);
-            empilhar(&pilhaMerge, a);
-            empilhar(&pilhaMerge, meio);
+        } else { 
+            // Retirar o indice de MERGE
+            desempilhar(&p); 
         }
     }
 
     destruirPilha(&p);
-
-    while(!pilhaVazia(pilhaMerge)) {
-
-        b = desempilhar(&pilhaMerge);
-        a = desempilhar(&pilhaMerge);
-
-        if (a < b) {
-            meio = ((b + a) >> 1);
-            comparacoes += merge(vetor, a, meio, b);
-        }
-    }
-
-    destruirPilha(&pilhaMerge);
 
     return comparacoes;
 }
@@ -247,7 +273,7 @@ uint64_t quickSortSR(int vetor[], size_t tam) {
 
     if (tam <= 1) return 0;
 
-    // Ponteiro que representa o numreo de comparacoes
+    // Ponteiro que representa o numero de comparacoes
     uint64_t comparacoes = 0;
 
     // Indices de ordenacao
@@ -255,7 +281,7 @@ uint64_t quickSortSR(int vetor[], size_t tam) {
 
     // Pilha de simulacao da recursao
     pilha p;
-    if (inicializarPilha(&p, (tam << 1))) return 0;
+    if (inicializarPilha(&p, (tam << 1))) return (-1);
 
     // Inicializa a PILHA com os extremos
     empilhar(&p, 0);
@@ -267,7 +293,7 @@ uint64_t quickSortSR(int vetor[], size_t tam) {
         a = desempilhar(&p);
 
         if (a < b) {
-            // Particionamento do pivot (b)
+            // Particionamento do pivo (b)
             posPivo = particao(vetor, a, b, &comparacoes);
 
             // Lado esquerdo
@@ -286,7 +312,60 @@ uint64_t quickSortSR(int vetor[], size_t tam) {
     return comparacoes;
 }
 
+uint64_t maxHeapifySR(int vetor[], size_t inicio, size_t fim) {
+
+    size_t esquerdo, direito, maior;
+    uint64_t comparacoes = 0;
+
+    maior = (inicio + 1);
+
+    // Continua fazendo o heapify ate ficar uma max heap
+    while (maior != inicio) {
+
+        esquerdo = indiceFilhoEsquerdo(inicio);
+        direito = indiceFilhoDireito(inicio);
+
+        // Define quem eh o maior entre os 3 nos
+        if ((esquerdo <= fim) && (vetor[esquerdo] > vetor[inicio]))
+            maior = esquerdo;
+        else
+            maior = inicio;
+        if ((direito <= fim) && (vetor[direito] > vetor[maior]))
+            maior = direito;
+
+        comparacoes += 2; // Comparacoes por iteracao
+
+        // Se for necessario faz a troca
+        if (maior != inicio) {
+            trocarPosicao(vetor, maior, inicio);
+            inicio = maior;
+            maior++; // Incrementa para ficar diferente
+        }
+    }
+        
+    return comparacoes;
+}
+
+uint64_t construirMaxHeapSR(int vetor[], size_t tam) {
+    uint64_t comparacoes = 0;
+    // Faz max Heaps dos nos menores ate chegar na raiz
+    for (int i = ((tam >> 1) - 1); i >= 0; i--)
+        comparacoes += maxHeapifySR(vetor, 0, (tam - 1));
+    return comparacoes;
+}
+
 uint64_t heapSortSR(int vetor[], size_t tam) {
-    vetor[0] = 99;
-    return -1;
+
+    if (tam <= 1) return 0;
+
+    // Constroi uma max heap completa
+    uint64_t comparacoes = construirMaxHeap(vetor, tam);
+
+    // Arruma o max heap retirando a raiz do maxHeapify
+    for (size_t i = (tam - 1); i >= 1; i--) {
+        trocarPosicao(vetor, 0, i);
+        comparacoes += maxHeapifySR(vetor, 0, (i - 1));
+    }
+
+    return comparacoes;
 }

@@ -13,6 +13,13 @@
 #define MAX_INT_VALUE 536870912 // 2 elevado a 29, tamanho maximo possivel
 
 /*
+    Imprime o TITULO da ordenacao com colaracao amarela
+  
+    @param (const char*) ordenacao - titulo da ordenacao
+*/
+void tituloOrdenacao(const char *ordenacao);
+
+/*
     Imprime o VETOR no formato:
     Vetor "nome":
     [ n1 n2 n3 n4 ... nN ]

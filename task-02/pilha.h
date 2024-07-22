@@ -14,6 +14,9 @@ typedef struct {
 // Inicializa a pilha, com altura e memoria
 unsigned int inicializarPilha(pilha *p, size_t tamanho); // Retorna 1 para ERRO
 
+// Destroi a pilha
+void destruirPilha(pilha *p);
+
 // Nao verifica se eh impossivel empilhar
 void empilhar(pilha *p, int valor);
 

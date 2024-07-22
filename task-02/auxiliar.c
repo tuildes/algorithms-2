@@ -1,5 +1,9 @@
 #include "auxiliar.h"
 
+void tituloOrdenacao(const char *ordenacao) {
+    printf("\n\033[1;33m%s\033[m\n", ordenacao);
+}
+
 void imprimirVetor(int vetor[], size_t tam, const char nome[]) {
     printf("\e[1m\nVetor %s:\n\e[m[ ", nome);
     for (size_t i = 0; i < tam; i++)
