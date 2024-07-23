@@ -12,6 +12,7 @@ void getNome(char nome[]) {
 uint32_t getGRR() { return 20235087; }
 
 void trocarPosicao(int vetor[], size_t pos1, size_t pos2) {
+    
     const int auxiliar = vetor[pos1];
     vetor[pos1] = vetor[pos2];
     vetor[pos2] = auxiliar;
@@ -265,7 +266,6 @@ uint64_t mergeSortSR(int vetor[], size_t tam) {
     }
 
     destruirPilha(&p);
-
     return comparacoes;
 }
 
@@ -347,6 +347,7 @@ uint64_t maxHeapifySR(int vetor[], size_t inicio, size_t fim) {
 }
 
 uint64_t construirMaxHeapSR(int vetor[], size_t tam) {
+    
     uint64_t comparacoes = 0;
     // Faz max Heaps dos nos menores ate chegar na raiz
     for (int i = ((tam >> 1) - 1); i >= 0; i--)
